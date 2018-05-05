@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "ts-json-schema-generator": "^0.24.6"
+  },
+  "scripts": {
+    "genschema": "ts-json-schema-generator --path schema/openmath.d.ts --type OMOBJ", 
+    "saveschema": "yarn --silent run genschema > schema/openmath.json"
+  }, 
+  "name": "openmath-json",
+  "version": "0.0.1",
+  "description": " A Work-In-Progress on an (as yet unofficial) OpenMath JSON Encoding ",
+  "main": "index.js",
+  "repository": "git@github.com:tkw1536/OpenMath-JSON.git",
+  "author": "Tom Wiesing <tkw01536@gmail.com>",
+  "license": "CC-BY-3.0"
+}
