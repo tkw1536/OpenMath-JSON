@@ -8,7 +8,7 @@
 /** OpenMath Object Constructor */
 export interface OMOBJ extends withCD {
     kind: 'OMOBJ'
-    version?: '2.0'
+    openmath?: '2.0'
 
     object: omel
 }
@@ -36,21 +36,28 @@ export interface OMV extends referencable {
     name: name
 }
 
-/** integer */
-export interface OMI extends referencable {
-    kind: 'OMI'
+/** an integer */
+export type OMI = omiint | omidec | omihex;
 
-    /** the integer */
-    integer: integer
-}
+interface omikind extends referencable { kind: 'OMI' }
+interface omiint extends omikind { integer:     integer }
+interface omidec extends omikind { decimal:     decimalInteger }
+interface omihex extends omikind { hexadecimal: hexInteger }
+
+/** IEEE floating point */
+export type OMF = omffloat | omfdec | omfhex; // TODO: NaN, +-inf
+
+interface omfkind  extends referencable { kind: 'OMF' }
+interface omffloat extends omfkind { float:       float }
+interface omfdec   extends omfkind { decimal:     decimalFloat }
+interface omfhex   extends omfkind { hexadecimal: hexFloat }
 
 /** bytes */
-export interface OMB extends referencable {
-    kind: 'OMB'
+export type OMB = ombbytes | ombbase64;
 
-    /** the bytes */
-    bytes: bytes
-}
+interface ombkind extends referencable { kind: 'OMB' }
+interface ombbytes  extends ombkind { bytes: byte[] }
+interface ombbase64 extends ombkind { base64: base64string }
 
 /** String */
 export interface OMSTR extends referencable {
@@ -58,15 +65,6 @@ export interface OMSTR extends referencable {
 
     /** the string */
     string: string
-}
-
-
-/** IEEE floating point */
-export interface OMF extends referencable {
-    kind: 'OMF'
-
-    /** the floating point number */
-    float: float
 }
 
 /** Application */
@@ -77,7 +75,7 @@ export interface OMA extends withCD {
     applicant: omel // TODO: Name
 
     /** the arguments that the applicant is being applied to */
-    arguments: omel[]
+    arguments?: omel[]
 }
 
 /** Binding */
@@ -120,18 +118,18 @@ export interface OME extends referencable {
 export interface OMATTR extends withCD {
     kind: 'OMATTR'
 
-    /** object that is being attributed */
-    object: omel
-
     /** attributes attributed to this object */
     attributes: omattributes
+
+    /** object that is being attributed */
+    object: omel
 }
 
 /**
  * Attributes for the OMATTR Constructor
  * @minItems 1
 */
-type omattributes = ([OMS, omel])[];
+type omattributes = ([OMS, omel|OMFOREIGN])[];
 
 
 /** Non-OpenMath object  */
@@ -198,9 +196,38 @@ type name = string;
 type integer = number;
 
 /**
+ * A string representing a decimal integer
+ * 
+ * @pattern ^-?[0-9]+$
+ */
+type decimalInteger = string;
+
+/**
+ * A string representing a hexadecimal integer
+ * 
+ * @pattern ^-?x[0-9A-F]+.$
+ */
+type hexInteger = string;
+
+/**
  * A floating point number
+ * 
+ * Represented via a native JSON representation
  */
 type float = number;
+
+/**
+ * A string representing a decimal floating-point number
+ * 
+ * @pattern ^(-?)([0-9]+)?("."[0-9]+)?([eE](-?)[0-9]+)?$
+ */
+type decimalFloat = string;
+
+/** A string representing a hexa-decimal floating-point number
+ * 
+ * @pattern ^([0-9A-F]+)$
+ */
+type hexFloat = string;
 
 /**
  * A set of bytes of data
