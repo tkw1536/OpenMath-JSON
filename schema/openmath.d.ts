@@ -21,10 +21,11 @@ type omel = OMS | OMV | OMI | OMB | OMSTR | OMF | OMA | OMBIND | OME | OMATTR | 
 export interface OMS extends withCD {
     kind: 'OMS'
 
-    /** name of the symbol */
-    name: name
     /** content dictonary the symbol is in */
     cd: uri
+
+    /** name of the symbol */
+    name: name
 }
 
 
@@ -78,6 +79,23 @@ export interface OMA extends withCD {
     arguments?: omel[]
 }
 
+/** Attributed object */
+export interface OMATTR extends withCD {
+    kind: 'OMATTR'
+
+    /** attributes attributed to this object */
+    attributes: omattributes
+
+    /** object that is being attributed */
+    object: omel
+}
+
+/**
+ * Attributes for the OMATTR Constructor
+ * @minItems 1
+*/
+type omattributes = ([OMS, omel|OMFOREIGN])[];
+
 /** Binding */
 export interface OMBIND extends withCD {
     kind: 'OMBIND'
@@ -88,7 +106,7 @@ export interface OMBIND extends withCD {
     /** the variables being bound */
     variables: attvars
 
-    /** the object that is being bo */
+    /** the object that is being bound */
     object: omel
 }
 
@@ -111,26 +129,8 @@ export interface OME extends referencable {
     error: OMS
 
     /** arguments to the error  */
-    arguments: (omel|OMFOREIGN)[] // TODO: Rename this?
+    arguments?: (omel|OMFOREIGN)[] // TODO: Rename this?
 }
-
-/** Attributed object */
-export interface OMATTR extends withCD {
-    kind: 'OMATTR'
-
-    /** attributes attributed to this object */
-    attributes: omattributes
-
-    /** object that is being attributed */
-    object: omel
-}
-
-/**
- * Attributes for the OMATTR Constructor
- * @minItems 1
-*/
-type omattributes = ([OMS, omel|OMFOREIGN])[];
-
 
 /** Non-OpenMath object  */
 export interface OMFOREIGN extends withCD {
@@ -228,11 +228,6 @@ type decimalFloat = string;
  * @pattern ^([0-9A-F]+)$
  */
 type hexFloat = string;
-
-/**
- * A set of bytes of data
- */
-type bytes = byte[] | base64string;
 
 /**
  * A byte

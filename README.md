@@ -1,13 +1,15 @@
 # OpenMath-JSON
 
-A Work-In-Progress on an (as yet unofficial) OpenMath JSON Encoding
+A Proposal for an OpenMath JSON encoding -- see [schema/openmath.md](schema/openmath.md) for concrete examples and documentation. 
 
-## File Structure
+The actual encoding can be found in [schema/openmath.d.ts](schema/openmath.d.ts). 
+It is implemented as a set of TypeScript Definitions. 
+This makes it extremely easy to use in existing TypeScript projects. 
 
-The type definition is in [schema/openmath.d.ts](schema/openmath.d.ts) as a TypeScript Defintion file. 
+For use in other languages, it can be compiled into a [JSON Schema](http://json-schema.org). 
+This is achieved using [ts-json-schema-generator](https://github.com/vega/ts-json-schema-generator). 
 
-A [JSON Schema](http://json-schema.org/) is automatically generated using [ts-json-schema-generator](https://github.com/vega/ts-json-schema-generator). 
-If [yarn](https://yarnpkg.com/en/) is installed, this can be automatically achieved using:
+If [yarn](https://yarnpkg.com/en/) is installed locally, this can be automatically achieved using:
 
 ```bash
 # To install ts-json-schema-generator
@@ -16,6 +18,8 @@ yarn
 # To generate a JSON Schema into schema/openmath.json
 yarn saveschema
 ```
+
+Afterwards a JSON Schema can be found in `schema/openmath.json`. 
 
 ## License
 
