@@ -1,0 +1,12 @@
+# use NodeJS, whatever version
+language: node_js
+node_js: node
+
+# install yarn
+install: yarn
+
+script:
+  # generate the schema, and check that the file exists
+  - yarn saveschema && [ -f schema/openmath.json ]
+  # check that the example typecheck
+  - yarn tsc --noEmit schema/examples.ts 
