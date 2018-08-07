@@ -1,0 +1,923 @@
+\documentclass[usenames,dvipsnames]{beamer}
+
+
+% listings syntax highlighting for JSOn
+\usepackage{listings}
+
+\colorlet{bool}{red}
+\colorlet{string}{blue}
+\colorlet{number}{orange}
+\colorlet{comment}{OliveGreen}
+\colorlet{type}{purple}
+
+\lstset{
+    basicstyle=\tiny\ttfamily,
+    % strings
+    string=[s]{"}{"},
+    stringstyle=\color{string},
+    % booleans
+    keywords={true,false},
+    keywordstyle=\color{bool},
+    % comments
+    comment=[s]{/*}{*/},
+    morecomment=[l]{//},
+    commentstyle=\color{comment},
+    % types
+    morekeywords=[2]{base64string,omel,uri,name,any,string,integer,decimalInteger,hexInteger,float,decimalFloat,hexFloat,byte,OMFOREIGN,OMV,attvar},
+    keywordstyle=[2]{\color{type}},
+}
+
+% digits
+\lstset{literate=%
+   *{0}{{{\color{number}0}}}1
+    {1}{{{\color{number}1}}}1
+    {2}{{{\color{number}2}}}1
+    {3}{{{\color{number}3}}}1
+    {4}{{{\color{number}4}}}1
+    {5}{{{\color{number}5}}}1
+    {6}{{{\color{number}6}}}1
+    {7}{{{\color{number}7}}}1
+    {8}{{{\color{number}8}}}1
+    {9}{{{\color{number}9}}}1
+    {e-}{{{\color{number}e-}}}2
+    {-}{{{\color{number}-}}}1
+    {.}{{{\color{number}.}}}1
+    {base64string}{{{\color{type}base64string}}}{12}%keyword gets caught by number, so escape it
+}
+
+% lstinline will be of normal size
+\makeatletter
+\let\lstinline@org\lstinline
+\def\lstinline{\lstinline@org[basicstyle=\ttfamily]}
+\makeatother
+
+\begin{document}
+
+% TODO: Add CICM workshop details etc
+\title{A Proposal for an OpenMath JSON Encoding}   
+\author{Tom Wiesing\and\underline{Michael Kohlhase}} 
+\date{\today} 
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% =================================================================
+% Motivation
+% =================================================================
+\begin{frame}[fragile]
+    \frametitle{What is JSON?}
+    \begin{itemize}
+        \item JSON = \textbf{J}ava\textbf{S}cript \textbf{O}bject \textbf{N}otation%json.org
+        \begin{itemize}
+            \item lightweight data-interchange format
+            \item subset of JavaScript (used a lot on the web)
+            \item defined independently
+        \end{itemize}
+        \item Primitive types
+        \begin{itemize}
+                \item Strings (e.g. \lstinline{"Hello world"})
+                \item Numbers (e.g. \lstinline{42} or \lstinline{3.14159265})
+                \item Booleans (\lstinline{true} and \lstinline{false})
+                \item \lstinline{null}
+        \end{itemize}
+        \item Composite types
+        \begin{itemize}
+            \item Arrays (e.g. \lstinline{[1, "two", false]})
+            \item Objects (e.g. \lstinline|{"foo": "bar", "answer": 42}|)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Why an OpenMath encoding for JSON?}
+    \begin{itemize}
+        \item an OpenMath JSON encoding would make it easy to use across many languages
+        \begin{itemize}
+            \item JSON support exists in most modern programming languages
+            \begin{itemize}
+                \item corresponding native types common
+                \item serialization to/from JSON without external library
+            \end{itemize}
+        \end{itemize}
+        \item some existing approaches for an OpenMath JSON encoding
+        \begin{itemize}
+            \item discussed / suggested on the OpenMath mailing list
+            \item we will look at two examples here
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{XML as JSON}
+    \begin{itemize}
+        \item \textbf{Idea:} Generically encode XML as JSON
+        \item use the JSONML standard for this%http://www.jsonml.org/
+        \item e.g. $\mathrm{plus}(x, 5)$ corresponds to:
+        \begin{lstlisting}
+[  
+   "OMOBJ",
+   {  
+      "xmlns":"http://www.openmath.org/OpenMath"
+   },
+   [  
+      "OMA",
+      [  
+         "OMS",
+         {  
+            "cd":"arith1",
+            "name":"plus"
+         }
+      ],
+      [  
+         "OMV",
+         {  
+            "name":"x"
+         }
+      ],
+      [  
+         "OMI",
+         "5"
+      ]
+   ]
+]
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{XML as JSON (2)}
+    \begin{itemize}
+        \item Advantages
+        \begin{itemize}
+            \item based on well-known XML encoding
+            \item easy to understand based on it
+        \end{itemize} 
+        \item does not make use of JSON structures
+        \begin{itemize}
+            \item all attributes are encoded as strings, even numbers
+            \item e.g. \lstinline{1e-10} (a valid JSON literal) can not be used
+        \end{itemize}
+        \item retains some of the XML akwardness
+        \begin{itemize}
+            \item introduces unnecessary overhead
+            \item e.g. some pseudo-elements (such as OMATP) are needed
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+    \frametitle{OpenMath-JS}%https://github.com/lurchmath/openmath-js
+    \begin{itemize}
+        \item OpenMath-JS
+        \begin{itemize}
+            \item an (incomplete) implementation of OpenMath in JavaScript
+            \item developed by Nathan Carter for use with Lurch Math on the web
+            \item written in literate coffee script, a derivative language of JavaScript
+        \end{itemize}
+        \item e.g. $\mathrm{plus}(x, 5)$ corresponds to:
+        \begin{lstlisting}
+{  
+   "t":"a",
+   "c": [  
+      {  
+         "t":"sy",
+         "cd":"arith1",
+         "n":"plus"
+      },
+      {  
+         "t":"v",
+         "n":"x"
+      },
+      {  
+         "t":"i",
+         "v":"5"
+      }
+   ]
+}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{OpenMath-JS (2)}
+    \begin{itemize}
+        \item does make use of JSON native structures
+        \begin{itemize}
+            \item much better than \textit{JSON-ML}
+            \item small property names keep size of transmitted objects small
+        \end{itemize}
+        \item comes with some problems
+        \begin{itemize}
+            \item hard to read for humans
+            \item written for \textit{JavaScript}, not JSON
+            \item no formal schema
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+% =================================================================
+% Our Approach for an OpenMath encoding
+% =================================================================
+
+\begin{frame}
+    \frametitle{Towards an OpenMath JSON Formalization}
+    \begin{itemize}
+        \item we need to write a new OpenMath JSON encoding
+        \begin{itemize}
+            \item combine advantages of the above two
+            \item should be close to the XML encoding
+            \item should make use of JSON concepts
+        \end{itemize}
+        \item we want to formalize this JSON encoding
+        \begin{itemize}
+            \item to verify JSON objects
+            \item not done by existing approaches
+        \end{itemize}
+        \item comes with some positive side effects
+        \begin{itemize}
+            \item formalization of JSON $\Rightarrow$ structure definition in most languages
+            \item trivial to use advanced serialization tools
+            \begin{itemize}
+                \item e.g. \textit{Protocol Buffers}, \textit{ZeroMQ}
+            \end{itemize}
+        \end{itemize}
+        \item we can use JSON Schema%http://json-schema.org/
+        \begin{itemize}
+            \item a vocabulary allowing us to validate and annotate JSON documents
+            \item tools for verification exist
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Towards an OpenMath JSON Formalization (2)}
+    \begin{itemize}
+        \item JSON schema is often tedious to write and read
+        \begin{itemize}
+            \item especially when it comes to recusrive data types
+            \item but implementation of it still exist 
+        \end{itemize}
+        \item \textbf{Idea:} Write schema in a TypeScript, compile into a JSON schema
+        \begin{itemize}
+            \item TypeScript = JavaScript + Type Annotations
+            \item easily writeable and understandable
+            \item a compiler from TypeScript Definitions into JSON Schema exists
+        \end{itemize}
+        \item We have done this, and will present some examples in the following slides
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Towards an OpenMath JSON Formalization (3)}
+    \begin{itemize}
+        \item We wrote a JSON Schema
+        \begin{itemize}
+            \item was written as described above
+            \item we will give an overview how this looks below
+        \end{itemize}
+        \item We also wrote a translator from OpenMath XML to JSON
+        \begin{itemize}
+            \item a RESTful interface as part of MMT% TODO: Should we mention what MMT is
+            \item was quick to implement given an existing XML implementation
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+% =================================================================
+% OpenMath JSON Overview
+% =================================================================
+
+\begin{frame}[fragile]
+    \frametitle{General Structure of OpenMath objects}
+    \begin{itemize}
+        \item represent each OM Object as a Hashmap:
+        \begin{lstlisting}
+{
+    "kind": "OMV",
+    "id": "something",
+    "name": "x"
+}
+    \end{lstlisting}
+        \item \texttt{kind} attribute specifies the type
+        \begin{itemize}
+            \item called a \textit{type guard} in TypeScript
+            \item has the same names as elements in the XML encoding
+        \end{itemize}
+        \item \texttt{id} attribute used for structure sharing
+        \begin{itemize}
+            \item like in xml
+            \item referenced using \texttt{OMR} kind (we will come back to this later)
+        \end{itemize}
+        \item the examples
+        \begin{itemize}
+            \item use TypeScript syntax (easily readable)
+            \item omit the \texttt{id} attribute
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+    \frametitle{Object Constructor - OMOBJ}
+    \begin{itemize}
+        \item
+        \begin{lstlisting}
+{
+    "kind": "OMOBJ",
+
+    /** optional version of openmath being used */
+    "openmath": "2.0",
+
+    /** the actual object */
+    "object": omel /* any element */
+}
+    \end{lstlisting}
+        \item e.g. the number $3$
+\begin{lstlisting}
+{
+    "kind": "OMOBJ",
+    "openmath": "2.0",
+    "object": {
+        "kind": "OMI", 
+        "integer": 3
+    }
+}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Symbols - OMS}
+    \begin{itemize}
+        \item
+\begin{lstlisting}
+{
+    "kind": "OMS",
+
+    /** the base for the cd, optional */
+    "cdbase": uri, 
+
+    /** content dictonary the symbol is in, any uri */
+    "cd": uri
+
+    /** name of the symbol */
+    "name": name
+}
+\end{lstlisting}
+        \item e.g. the \texttt{sin} symbol from the \texttt{transc1} CD
+\begin{lstlisting}
+{
+    "kind": "OMS",
+
+    "cd": "transc1",
+    "name": "sin"
+}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Variables - OMV}
+    \begin{itemize}
+        \item
+        \begin{lstlisting}
+{
+    "kind": "OMV",
+
+    /** name of the variable */
+    "name": name
+}
+    \end{lstlisting}
+        \item e.g. the variable $x$ \begin{lstlisting}
+{
+    "kind": "OMV",
+    "name": "x"
+}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Integers - OMI (1)}
+    \begin{itemize}
+        \item integers can be represented in three ways
+        \begin{itemize}
+            \item as a native JSON integer
+            \item as a decimal-encoded string (like in XML)
+            \item as a hexadecimal-encoded string (like in XML)
+        \end{itemize}
+        \item 
+\begin{lstlisting}
+{
+    "kind": "OMI",
+
+    //
+    // exactly one of the following
+    //
+
+    /* any json integer */
+    "integer": integer,
+    /* a string matching ^-?[0-9]+$ */
+    "decimal": decimalInteger,
+    /* a string matching ^-?x[0-9A-F]+.$ */
+    "hexadecimal": hexInteger
+}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Integers - OMI (2)}
+    \begin{itemize}
+    \item e.g. $-120$ represented in three ways:
+    \begin{itemize}
+        \item as a JSON integer
+\begin{lstlisting}
+{
+    "kind": "OMI",
+    "integer": -120
+}
+\end{lstlisting}
+        \item as a decimal-encoded string
+\begin{lstlisting}
+{
+    "kind": "OMI",
+    "decimal": "-120"
+}
+\end{lstlisting}
+        \item as a hexadecimal-encoded string
+\begin{lstlisting}
+{
+    "kind": "OMI",
+    "hexadecimal": "-x78"
+}
+\end{lstlisting}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Floats - OMF (1)}
+    \begin{itemize}
+        \item floats can also be represented in three ways
+        \begin{itemize}
+            \item as a native JSON number
+            \item using their decimal encoding (like in XML)
+            \item using their hexadecimal encoding (like in XML)
+        \end{itemize}
+        \item
+\begin{lstlisting}
+{
+    "kind": "OMF",
+
+    //
+    // exactly one of the following
+    //
+
+    /* any json number */
+    "float": float,
+    /* a string matching 
+        ^(-?)([0-9]+)?("."[0-9]+)?([eE](-?)[0-9]+)?$ */
+    "decimal": decimalFloat,
+    /* a string matching ^([0-9A-F]+)$ */
+    "hexadecimal": hexFloat 
+}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Floats - OMF (2)}
+    \begin{itemize}
+    \item e.g. $10^{-10}$ represented in three ways:
+    \begin{itemize}
+        \item as a JSON float
+\begin{lstlisting}
+{
+    "kind": "OMF",
+    "float": 1e-10
+}
+\end{lstlisting}
+        \item as a decimal-encoded string
+\begin{lstlisting}
+{
+    "kind": "OMF",
+    "decimal": "0.0000000001"
+}
+\end{lstlisting}
+        \item as a hexadecimal-encoded string
+\begin{lstlisting}
+{
+    "kind": "OMF",
+    "hexaecimal": "3DDB7CDFD9D7BDBB"
+}
+\end{lstlisting}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Bytes - OMB (1)}
+    \begin{itemize}
+        \item bytes can be represented in two ways
+        \begin{itemize}
+            \item as an array of bytes
+            \item as a string encoded in base64
+        \end{itemize}
+        \item
+\begin{lstlisting}
+{
+    "kind": "OMB",
+
+    //
+    // exactly one of the following
+    //
+
+    /** an array of bytes
+        where a byte is an integer from 0 to 255 */
+    "bytes": byte[],
+    /** a base64 encoded string */
+    "base64": base64string
+}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+    \frametitle{Bytes - OMB (2)}
+    \begin{itemize}
+    \item e.g. the ascii bytes of \textit{hello world} represented in two ways:
+    \begin{itemize}
+            \item as a byte array
+\begin{lstlisting}
+{
+    "kind": "OMB",
+    "bytes": [104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]
+}
+\end{lstlisting}
+            \item as a base64-encoded string
+\begin{lstlisting}
+{
+    "kind": "OMB",
+    "base64": "aGVsbG8gd29ybGQ="
+}
+\end{lstlisting}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Strings - OMSTR}
+    \begin{itemize}
+        \item
+        \begin{lstlisting}
+{
+    "kind": "OMSTR", 
+
+    /** the string */
+    "string": string
+}
+    \end{lstlisting}
+        \item e.g. \begin{lstlisting}
+{
+    "kind": "OMSTR", 
+    "string": "Hello world"
+}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Applications - OMA}
+    \begin{itemize}
+        \item
+        \begin{lstlisting}
+{
+    "kind": "OMA", 
+
+    /** the base for the cd, optional */
+    "cdbase": uri, 
+
+    /** the term that is being applied */
+    "applicant": omel, 
+
+    /**
+        the arguments that the applicant is being applied to 
+        optional, and assumed to be empty if omitted
+    */
+    "arguments"?: omel[]
+}
+    \end{lstlisting}
+        \item e.g. \begin{lstlisting}
+{
+    "kind": "OMA",
+
+    "applicant": {
+        "kind": "OMS",
+
+        "cd": "transc1",
+        "name": "sin"
+    },
+
+    "arguments": [{
+            "kind": "OMV",
+            "name": "x"
+    }]
+}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Attributions - OMATTR (1)}
+    \begin{itemize}
+        \item
+        \begin{lstlisting}
+{
+    "kind": "OMATTR", 
+
+    /** the base for the cd, optional */
+    "cdbase": uri, 
+
+    /** attributes attributed to this object, non-empty */
+    "attributes": ([
+        OMS, omel|OMFOREIGN
+    ])[]
+
+    /** object that is being attributed */
+    "object": omel
+}
+    \end{lstlisting}
+        \item attributes are represented as an array of pairs containing
+        \begin{itemize}
+            \item the name of the attribute
+            \item the value of the attribute
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Attributions - OMATTR (2)}
+    \begin{itemize}
+        \item e.g.
+        \begin{lstlisting}
+{
+    "kind": "OMATTR",
+    "attributes": [
+        [
+            {
+                "kind": "OMS",
+                "cd": "ecc",
+                "name": "type"
+            },
+            {
+                "kind": "OMS",
+                "cd": "ecc",
+                "name": "real"
+            }
+        ]
+    ],
+    "object": {
+        "kind": "OMV",
+        "name": "x"
+    }
+}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Bindings - OMB (1)}
+    \begin{itemize}
+        \item
+        \begin{lstlisting}
+{
+    "kind": "OMBIND", 
+
+    /** the base for the cd, optional */
+    "cdbase": uri, 
+
+    /** the binder being used */
+    "binder": omel
+
+    /** the variables being bound, non-empty */
+    "variables": (OMV | attvar)[]
+
+    /** the object that is being bound */
+    "object": omel
+}
+    \end{lstlisting}
+        \item variables being attributed are represented as a list with each element either
+        \begin{itemize}
+            \item an \texttt{OMV} variable
+            \item an \texttt{OMATTR} where the attributed object is a variable (\texttt{attvar})
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Bindings - OMB (2)}
+    \begin{itemize}
+        \item e.g.
+        \begin{lstlisting}
+{  
+    "kind": "OMBIND",
+    "binder":{  
+        "kind": "OMS",
+        "cd": "fns1",
+        "name": "lambda"
+    },
+    "variables":[  
+        {  
+            "kind": "OMV",
+            "name": "x"
+        }
+    ],
+    "object": {  
+        "kind": "OMA",
+        "applicant": {  
+            "kind": "OMS",
+            "cd": "transc1",
+            "name":"sin"
+        },
+        "arguments": [  
+            {  
+                "kind":"OMV",
+                "name":"x"
+            }
+        ]
+    }
+}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Errors - OME (1)}
+    \begin{itemize}
+        \item
+        \begin{lstlisting}
+{
+    "kind": "OME", 
+
+    /** the error that has occured */
+    "error": OMS,
+
+    /** arguments to the error, optional  */
+    "arguments"?: (omel|OMFOREIGN)[]
+}
+    \end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Errors - OME (2)}
+    \begin{itemize}
+        \item e.g. \begin{lstlisting}
+{
+    "kind": "OME",
+    "error": {
+        "kind": "OMS",
+        "cd": "aritherror",
+        "name": "DivisionByZero"
+    },
+    "arguments": [
+        {
+            "kind": "OMA",
+            "applicant": {
+                "kind": "OMS",
+                "cd": "arith1",
+                "name": "divide"
+            },
+            "arguments": [
+                {
+                    "kind": "OMV",
+                    "name": "x"
+                },
+                {
+                    "kind": "OMI",
+                    "integer": 0
+                }
+            ]
+        }
+    ]
+}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Foreign Objects - OMFOREIGN}
+    \begin{itemize}
+        \item
+\begin{lstlisting}
+{
+    "kind": "OMFOREIGN"
+
+    /** encoding of the foreign object */
+    "encoding"?: string
+
+    /** the foreign object */
+    "foreign": any
+}
+\end{lstlisting}
+        \item e.g.
+\begin{lstlisting}
+{
+    "kind": "OMFOREIGN",
+    "encoding": "text/latex",
+    "foreign": "$x=\frac{1+y}{1+2z^2}$"
+}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+    \frametitle{References - OMR (1)}
+    \begin{itemize}
+        \item we can reference any object with an \texttt{id}
+        \item
+\begin{lstlisting}
+{
+    "kind": "OMR"
+
+    /** element that is being referenced */
+    "href": uri
+}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{References - OMR (2)}
+    \begin{itemize}
+        \item e.g.
+\begin{lstlisting}
+{
+    "kind": "OMOBJ",
+    "object": {
+        "kind": "OMA",
+        "applicant": { "kind": "OMV", "name": "f" },
+        "arguments": [
+            {
+                "kind": "OMA",
+                "id": "t1",
+                "applicant": { "kind": "OMV", "name": "f" },
+                "arguments": [
+                    {
+                        "kind": "OMA",
+                        "id": "t11",
+                        "applicant": { "kind": "OMV", "name": "f" },
+                        "arguments": [
+                            { "kind": "OMV", "name": "a" },
+                            { "kind": "OMV", "name": "a" }
+                        ]
+                    },
+                    { "kind": "OMR", "href": "#t11" }
+                ]
+            },
+            { "kind": "OMR", "href": "#t1" }
+        ]
+    }
+}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+% =================================================================
+% Future Work: SCSCP based on the OpenMath encoding
+% =================================================================
+% TODO: Write these slides
+
+% =================================================================
+% Summary
+% =================================================================
+
+\begin{frame}
+    \frametitle{Summary}
+    \begin{itemize}
+        \item we established that an OpenMath JSON encoding makes using OM much easier in many languages
+        \begin{itemize}
+            \item most languages have strutured data types built in
+            \item serialization into/from JSON exists natively in many languages
+            \item easy to make use of \textit{Protocol Buffers} or \textit{ZeroMQ} based on this work
+        \end{itemize}
+        \item existing approaches had disadvantages, so we developed our own
+        \begin{itemize}
+            \item simple to translate to/from the XML Encoding (we have built a translator)
+            \item uses JSON-native data types
+        \end{itemize}
+        %\item can be used for protocols based on OpenMath, such as SCSCP
+        %\begin{itemize}
+        %    \item some future work still needed for this
+        %\end{itemize}
+        \item Thank you for listening. Questions, Comments, Concerns?
+    \end{itemize}
+\end{frame}
+
+\end{document}

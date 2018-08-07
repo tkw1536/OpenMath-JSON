@@ -175,10 +175,10 @@ We can use the `OMOBJ` type to create a new OpenMath object.
 {
     "kind": "OMOBJ",
 
-    /* optional version of openmath being used */
+    /** optional version of openmath being used */
     "openmath": "2.0",
 
-    /* the actual object */
+    /** the actual object */
     "object": omel /* any element, see below */
 }
 ```
@@ -328,7 +328,7 @@ Integers can be represented using their hexadecimal encoding, using the `hexadec
 ```json
 {
     "kind": "OMI",
-    "hexaecimal": "-x78"
+    "hexadecimal": "-x78"
 }
 ```
 
@@ -352,7 +352,7 @@ Floats can be represented as a native JSON Numbers, using a `float` property.
 ```json
 {
     "kind": "OMF",
-    "integer": 1e-10
+    "float": 1e-10
 }
 ```
 
@@ -422,7 +422,7 @@ Bytes can be represented as a native JSON Byte Array, using a `bytes` property.
 
 #### Base64-encoded bytes
 
-Bytes can also be reoprented encoded as a base64 encoded string.
+Bytes can also be encoded as a base64 encoded string.
 
 ```js
 {
@@ -478,7 +478,7 @@ Applications can be represented using the `OMA` type.
     "applicant": omel, 
 
     /** the arguments that the applicant is being applied to, optional */
-    "arguments": omel[]
+    "arguments"?: omel[]
 }
 ```
 
@@ -725,5 +725,32 @@ For example:
             }
         ]
     }
+}
+```
+
+### OMFOREIGN - Foreign Objects
+
+Just like in the XML encoding, the `OMFOREIGN` type can be used for foreign objects. 
+This can use an `href` property. 
+
+```ts
+{
+    "kind": "OMFOREIGN"
+
+    /** encoding of the foreign object */
+    "encoding"?: string
+
+    /** the foreign object */
+    "foreign": any
+}
+```
+
+For example: 
+
+```json
+{
+    "kind": "OMFOREIGN",
+    "encoding": "text/latex",
+    "foreign": "$x=\frac{1+y}{1+2z^2}$"
 }
 ```

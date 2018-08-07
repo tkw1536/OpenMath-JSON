@@ -1,6 +1,6 @@
 # OpenMath-JSON
 
-A Proposal for an OpenMath JSON encoding -- see [schema/openmath.md](schema/openmath.md) for concrete examples and documentation. 
+A Proposal for an OpenMath JSON encoding -- see [doc/openmath.md](doc/openmath.md) for concrete examples and documentation. 
 
 The actual encoding can be found in [schema/openmath.d.ts](schema/openmath.d.ts). 
 It is implemented as a set of TypeScript Definitions. 
