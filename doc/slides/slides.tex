@@ -11,7 +11,8 @@
 \colorlet{type}{purple}
 
 \lstset{
-    basicstyle=\tiny\ttfamily,
+    basicstyle=\small\ttfamily,
+    columns=fullflexible,
     % strings
     string=[s]{"}{"},
     stringstyle=\color{string},
@@ -114,32 +115,16 @@
         \item \textbf{Idea:} Generically encode XML as JSON
         \item use the JSONML standard for this%http://www.jsonml.org/
         \item e.g. $\mathrm{plus}(x, 5)$ corresponds to:
-        \begin{lstlisting}
-[  
-   "OMOBJ",
-   {  
-      "xmlns":"http://www.openmath.org/OpenMath"
-   },
-   [  
-      "OMA",
-      [  
-         "OMS",
-         {  
-            "cd":"arith1",
-            "name":"plus"
-         }
-      ],
-      [  
-         "OMV",
-         {  
-            "name":"x"
-         }
-      ],
-      [  
-         "OMI",
-         "5"
-      ]
-   ]
+\begin{lstlisting}
+[
+    "OMOBJ",
+    {"xmlns":"http://www.openmath.org/OpenMath"},
+    [
+        "OMA",
+        ["OMS", {"cd": "arith1", "name": "plus"}],
+        ["OMV", {"name": "x"}],
+        ["OMI", "5"]
+    ]
 ]
 \end{lstlisting}
     \end{itemize}
@@ -177,24 +162,14 @@
             \item written in literate coffee script, a derivative language of JavaScript
         \end{itemize}
         \item e.g. $\mathrm{plus}(x, 5)$ corresponds to:
-        \begin{lstlisting}
-{  
-   "t":"a",
-   "c": [  
-      {  
-         "t":"sy",
-         "cd":"arith1",
-         "n":"plus"
-      },
-      {  
-         "t":"v",
-         "n":"x"
-      },
-      {  
-         "t":"i",
-         "v":"5"
-      }
-   ]
+\begin{lstlisting}
+{
+    "t": "a",
+    "c": [  
+      {"t": "sy", "cd": "arith1", "n": "plus"}, 
+      {"t": "v", "n": "x"}, 
+      {"t": "i", "v": "5"}
+    ]
 }
 \end{lstlisting}
     \end{itemize}
@@ -294,13 +269,13 @@
     \frametitle{General Structure of OpenMath objects}
     \begin{itemize}
         \item represent each OM Object as a Hashmap:
-        \begin{lstlisting}
+\begin{lstlisting}
 {
     "kind": "OMV",
     "id": "something",
     "name": "x"
 }
-    \end{lstlisting}
+\end{lstlisting}
         \item \texttt{kind} attribute specifies the type
         \begin{itemize}
             \item called a \textit{type guard} in TypeScript
@@ -324,17 +299,15 @@
     \frametitle{Object Constructor - OMOBJ}
     \begin{itemize}
         \item
-        \begin{lstlisting}
+\begin{lstlisting}
 {
     "kind": "OMOBJ",
-
     /** optional version of openmath being used */
     "openmath": "2.0",
-
     /** the actual object */
     "object": omel /* any element */
 }
-    \end{lstlisting}
+\end{lstlisting}
         \item e.g. the number $3$
 \begin{lstlisting}
 {
@@ -356,22 +329,18 @@
 \begin{lstlisting}
 {
     "kind": "OMS",
-
     /** the base for the cd, optional */
-    "cdbase": uri, 
-
+    "cdbase": uri /* any valid URI */, 
     /** content dictonary the symbol is in, any uri */
-    "cd": uri
-
+    "cd": uri,
     /** name of the symbol */
-    "name": name
+    "name": name /* any valid symbol name */
 }
 \end{lstlisting}
         \item e.g. the \texttt{sin} symbol from the \texttt{transc1} CD
 \begin{lstlisting}
 {
     "kind": "OMS",
-
     "cd": "transc1",
     "name": "sin"
 }
@@ -381,17 +350,17 @@
 
 \begin{frame}[fragile]
     \frametitle{Variables - OMV}
-    \begin{itemize}
+\begin{itemize}
         \item
         \begin{lstlisting}
 {
     "kind": "OMV",
-
     /** name of the variable */
     "name": name
 }
-    \end{lstlisting}
-        \item e.g. the variable $x$ \begin{lstlisting}
+\end{lstlisting}
+        \item e.g. the variable $x$
+\begin{lstlisting}
 {
     "kind": "OMV",
     "name": "x"
@@ -413,16 +382,15 @@
 \begin{lstlisting}
 {
     "kind": "OMI",
-
     //
     // exactly one of the following
     //
 
     /* any json integer */
     "integer": integer,
-    /* a string matching ^-?[0-9]+$ */
+    /* any string matching ^-?[0-9]+$ */
     "decimal": decimalInteger,
-    /* a string matching ^-?x[0-9A-F]+.$ */
+    /* any string matching ^-?x[0-9A-F]+.$ */
     "hexadecimal": hexInteger
 }
 \end{lstlisting}
@@ -479,10 +447,10 @@
 
     /* any json number */
     "float": float,
-    /* a string matching 
+    /* any string matching 
         ^(-?)([0-9]+)?("."[0-9]+)?([eE](-?)[0-9]+)?$ */
     "decimal": decimalFloat,
-    /* a string matching ^([0-9A-F]+)$ */
+    /* any string matching ^([0-9A-F]+)$ */
     "hexadecimal": hexFloat 
 }
 \end{lstlisting}
@@ -531,7 +499,6 @@
 \begin{lstlisting}
 {
     "kind": "OMB",
-
     //
     // exactly one of the following
     //
@@ -556,7 +523,10 @@
 \begin{lstlisting}
 {
     "kind": "OMB",
-    "bytes": [104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]
+    "bytes": [
+        104, 101, 108, 108, 111, 32, 
+        119, 111, 114, 108, 100
+    ]
 }
 \end{lstlisting}
             \item as a base64-encoded string
@@ -577,7 +547,6 @@
         \begin{lstlisting}
 {
     "kind": "OMSTR", 
-
     /** the string */
     "string": string
 }
@@ -595,7 +564,7 @@
     \frametitle{Applications - OMA}
     \begin{itemize}
         \item
-        \begin{lstlisting}
+\begin{lstlisting}
 {
     "kind": "OMA", 
 
