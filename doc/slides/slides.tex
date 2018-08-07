@@ -1,5 +1,6 @@
 \documentclass[usenames,dvipsnames]{beamer}
 
+\usepackage{mathtools} % for over- and underbrackets
 
 % listings syntax highlighting for JSOn
 \usepackage{listings}
@@ -330,7 +331,7 @@
 {
     "kind": "OMS",
     /** the base for the cd, optional */
-    "cdbase": uri /* any valid URI */, 
+    "cdbase": uri, /* any valid URI */, 
     /** content dictonary the symbol is in, any uri */
     "cd": uri,
     /** name of the symbol */
@@ -352,7 +353,7 @@
     \frametitle{Variables - OMV}
 \begin{itemize}
         \item
-        \begin{lstlisting}
+\begin{lstlisting}
 {
     "kind": "OMV",
     /** name of the variable */
@@ -544,13 +545,13 @@
     \frametitle{Strings - OMSTR}
     \begin{itemize}
         \item
-        \begin{lstlisting}
+\begin{lstlisting}
 {
     "kind": "OMSTR", 
     /** the string */
     "string": string
 }
-    \end{lstlisting}
+\end{lstlisting}
         \item e.g. \begin{lstlisting}
 {
     "kind": "OMSTR", 
@@ -561,40 +562,39 @@
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{Applications - OMA}
+    \frametitle{Applications - OMA (1)}
     \begin{itemize}
         \item
 \begin{lstlisting}
 {
     "kind": "OMA", 
-
     /** the base for the cd, optional */
     "cdbase": uri, 
-
     /** the term that is being applied */
     "applicant": omel, 
-
-    /**
-        the arguments that the applicant is being applied to 
-        optional, and assumed to be empty if omitted
-    */
+    /** the arguments that the applicant 
+        is being applied to. Optional and
+        assumed to be empty if omitted */
     "arguments"?: omel[]
 }
-    \end{lstlisting}
-        \item e.g. \begin{lstlisting}
+\end{lstlisting}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Applications - OMA (2)}
+    \begin{itemize}
+        \item e.g. $\sin(x)$ \begin{lstlisting}
 {
     "kind": "OMA",
-
     "applicant": {
         "kind": "OMS",
-
         "cd": "transc1",
         "name": "sin"
     },
-
     "arguments": [{
-            "kind": "OMV",
-            "name": "x"
+        "kind": "OMV",
+        "name": "x"
     }]
 }
 \end{lstlisting}
@@ -608,15 +608,12 @@
         \begin{lstlisting}
 {
     "kind": "OMATTR", 
-
     /** the base for the cd, optional */
     "cdbase": uri, 
-
     /** attributes attributed to this object, non-empty */
     "attributes": ([
         OMS, omel|OMFOREIGN
-    ])[]
-
+    ])[],
     /** object that is being attributed */
     "object": omel
 }
@@ -632,22 +629,14 @@
 \begin{frame}[fragile]
     \frametitle{Attributions - OMATTR (2)}
     \begin{itemize}
-        \item e.g.
-        \begin{lstlisting}
+        \item e.g. to annotate a variable $x$ as having a real type
+\begin{lstlisting}
 {
     "kind": "OMATTR",
     "attributes": [
         [
-            {
-                "kind": "OMS",
-                "cd": "ecc",
-                "name": "type"
-            },
-            {
-                "kind": "OMS",
-                "cd": "ecc",
-                "name": "real"
-            }
+            { "kind": "OMS", "cd": "ecc", "name": "type" },
+            { "kind": "OMS", "cd": "ecc", "name": "real" }
         ]
     ],
     "object": {
@@ -663,19 +652,15 @@
     \frametitle{Bindings - OMB (1)}
     \begin{itemize}
         \item
-        \begin{lstlisting}
+\begin{lstlisting}
 {
     "kind": "OMBIND", 
-
     /** the base for the cd, optional */
     "cdbase": uri, 
-
     /** the binder being used */
-    "binder": omel
-
+    "binder": omel,
     /** the variables being bound, non-empty */
-    "variables": (OMV | attvar)[]
-
+    "variables": (OMV | attvar)[],
     /** the object that is being bound */
     "object": omel
 }
@@ -691,33 +676,21 @@
 \begin{frame}[fragile]
     \frametitle{Bindings - OMB (2)}
     \begin{itemize}
-        \item e.g.
-        \begin{lstlisting}
+        \item e.g. $\lambda x . \sin(x)$
+\begin{lstlisting}
 {  
     "kind": "OMBIND",
-    "binder":{  
-        "kind": "OMS",
-        "cd": "fns1",
-        "name": "lambda"
-    },
-    "variables":[  
-        {  
-            "kind": "OMV",
-            "name": "x"
-        }
+    "binder": 
+        { "kind": "OMS", "cd": "fns1", "name": "lambda" },
+    "variables": [  
+        { "kind": "OMV", "name": "x" }
     ],
     "object": {  
         "kind": "OMA",
-        "applicant": {  
-            "kind": "OMS",
-            "cd": "transc1",
-            "name":"sin"
-        },
-        "arguments": [  
-            {  
-                "kind":"OMV",
-                "name":"x"
-            }
+        "applicant":
+            { "kind": "OMS", "cd": "transc1", "name":"sin" },
+        "arguments": [
+            { "kind": "OMV", "name": "x" }
         ]
     }
 }
@@ -729,13 +702,11 @@
     \frametitle{Errors - OME (1)}
     \begin{itemize}
         \item
-        \begin{lstlisting}
+\begin{lstlisting}
 {
     "kind": "OME", 
-
     /** the error that has occured */
     "error": OMS,
-
     /** arguments to the error, optional  */
     "arguments"?: (omel|OMFOREIGN)[]
 }
@@ -746,34 +717,22 @@
 \begin{frame}[fragile]
     \frametitle{Errors - OME (2)}
     \begin{itemize}
-        \item e.g. \begin{lstlisting}
+        \item e.g. to annotate a \textit{division by zero} error in $x / 0$
+\begin{lstlisting}
 {
     "kind": "OME",
-    "error": {
-        "kind": "OMS",
-        "cd": "aritherror",
-        "name": "DivisionByZero"
-    },
-    "arguments": [
-        {
-            "kind": "OMA",
-            "applicant": {
-                "kind": "OMS",
-                "cd": "arith1",
-                "name": "divide"
-            },
-            "arguments": [
-                {
-                    "kind": "OMV",
-                    "name": "x"
-                },
-                {
-                    "kind": "OMI",
-                    "integer": 0
-                }
-            ]
-        }
-    ]
+    "error":
+        { "kind": "OMS", "cd": "aritherror", 
+          "name": "DivisionByZero" },
+    "arguments": [{
+        "kind": "OMA",
+        "applicant": { "kind": "OMS", "cd": "arith1",
+                       "name": "divide" },
+        "arguments": [
+            { "kind": "OMV", "name": "x" },
+            { "kind": "OMI", "integer": 0 }
+        ]
+    }]
 }
 \end{lstlisting}
     \end{itemize}
@@ -785,21 +744,19 @@
         \item
 \begin{lstlisting}
 {
-    "kind": "OMFOREIGN"
-
-    /** encoding of the foreign object */
-    "encoding"?: string
-
+    "kind": "OMFOREIGN",
+    /** encoding of the foreign object, optional */
+    "encoding"?: string,
     /** the foreign object */
     "foreign": any
 }
 \end{lstlisting}
-        \item e.g.
+        \item e.g. to represent a latex math term $\sin(x)$
 \begin{lstlisting}
 {
     "kind": "OMFOREIGN",
-    "encoding": "text/latex",
-    "foreign": "$x=\frac{1+y}{1+2z^2}$"
+    "encoding": "text/x-latex",
+    "foreign": "$\sin(x)$"
 }
 \end{lstlisting}
     \end{itemize}
@@ -814,48 +771,38 @@
 \begin{lstlisting}
 {
     "kind": "OMR"
-
     /** element that is being referenced */
     "href": uri
 }
 \end{lstlisting}
+        \item e.g. the term $f(\underbracket {f(\overbracket {f(a, a)}^y, y)}_x, x)$
     \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{References - OMR (2)}
-    \begin{itemize}
-        \item e.g.
 \begin{lstlisting}
 {
     "kind": "OMOBJ",
     "object": {
         "kind": "OMA",
         "applicant": { "kind": "OMV", "name": "f" },
-        "arguments": [
-            {
-                "kind": "OMA",
-                "id": "t1",
+        "arguments": [{ 
+            "kind": "OMA", "id": "x",
+            "applicant": { "kind": "OMV", "name": "f" },
+            "arguments": [{
+                "kind": "OMA", "id": "y",
                 "applicant": { "kind": "OMV", "name": "f" },
-                "arguments": [
-                    {
-                        "kind": "OMA",
-                        "id": "t11",
-                        "applicant": { "kind": "OMV", "name": "f" },
-                        "arguments": [
-                            { "kind": "OMV", "name": "a" },
-                            { "kind": "OMV", "name": "a" }
-                        ]
-                    },
-                    { "kind": "OMR", "href": "#t11" }
-                ]
-            },
-            { "kind": "OMR", "href": "#t1" }
-        ]
+                "arguments": 
+                    [{ "kind": "OMV", "name": "a" },
+                    { "kind": "OMV", "name": "a" }]
+            }, { "kind": "OMR", "href": "#y" }]
+        }, {
+            "kind": "OMR", "href": "#x" 
+        }]
     }
 }
 \end{lstlisting}
-    \end{itemize}
 \end{frame}
 
 % =================================================================
