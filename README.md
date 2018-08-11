@@ -5,13 +5,11 @@ A Proposal for an OpenMath JSON encoding -- see [doc/openmath.md](doc/openmath.m
 ## The Encoding
 
 The actual encoding can be found in [src/schema/openmath.d.ts](src/schema//openmath.d.ts). 
-It is implemented as a set of TypeScript Definitions. 
-This makes it extremely easy to use in existing TypeScript projects. 
+It is implemented as a set of TypeScript Definitions.
 
-For use in other languages, it can be compiled into a [JSON Schema](http://json-schema.org). 
+It can also be compiled into a [JSON Schema](http://json-schema.org), for easy validation. 
 This is achieved using [ts-json-schema-generator](https://github.com/vega/ts-json-schema-generator). 
-
-If [yarn](https://yarnpkg.com/en/) is installed locally, this can be automatically achieved using:
+If [yarn](https://yarnpkg.com/en/) is installed locally, you can run:
 
 ```bash
 # To install ts-json-schema-generator
@@ -21,7 +19,7 @@ yarn
 yarn saveschema
 ```
 
-[This file}(src/schema/openmath.json) is committed in the repository. 
+[The Resulting File](src/schema/openmath.json) is committed in the repository. 
 
 ## Demo Website and Conversion to/from XML
 
