@@ -5,6 +5,11 @@
  * @license CC-BY-3.0
  */
 
+// WARNING: After updating this file, run "yarn saveschema" to generate the new schema
+
+/** Any OpenMath element (or related element) */
+export type omany = OMOBJ | OMFOREIGN | omel;
+
 /** OpenMath Object Constructor */
 export interface OMOBJ extends withCD {
     kind: 'OMOBJ'
@@ -14,7 +19,7 @@ export interface OMOBJ extends withCD {
 }
 
 /** Elements which can appear inside an OpenMath object */
-type omel = OMS | OMV | OMI | OMB | OMSTR | OMF | OMA | OMBIND | OME | OMATTR | OMR;
+export type omel = OMS | OMV | OMI | OMB | OMSTR | OMF | OMA | OMBIND | OME | OMATTR | OMR;
 
 
 /** Symbol */
@@ -179,7 +184,7 @@ interface withCD extends referencable {
 /**
  * A URI
  * 
- * @format uri
+ * @format uri-reference
  */
 type uri = string;
 
@@ -205,7 +210,7 @@ type decimalInteger = string;
 /**
  * A string representing a hexadecimal integer
  * 
- * @pattern ^-?x[0-9A-F]+.$
+ * @pattern ^-?x[0-9A-F]+$
  */
 type hexInteger = string;
 

@@ -1,16 +1,36 @@
 {
   "dependencies": {
-    "ts-json-schema-generator": "^0.32.0"
+    "@types/deep-equal": "^1.0.1",
+    "@types/express": "^4.16.0",
+    "@types/morgan": "^1.7.35",
+    "@types/node": "^10.5.7",
+    "@types/xmldom": "^0.1.29",
+    "body-parser": "^1.18.3",
+    "deep-equal": "^1.0.1",
+    "express": "^4.16.3",
+    "jsonschema": "^1.2.4",
+    "morgan": "^1.9.0",
+    "ts-json-schema-generator": "^0.32.0",
+    "ts-node": "^7.0.0",
+    "xmldom": "^0.1.27"
   },
   "scripts": {
-    "genschema": "ts-json-schema-generator --path schema/openmath.d.ts --type OMOBJ",
-    "saveschema": "yarn --silent run genschema > schema/openmath.json"
+    "genschema": "ts-json-schema-generator --path src/schema/openmath.d.ts --type omany",
+    "saveschema": "yarn --silent run genschema > src/schema/openmath.json",
+    "test": "mocha -r ts-node/register 'test/spec/**.ts'",
+    "maketest": "ts-node test/fixtures/",
+    "serve": "ts-node src/server",
+    "serveprod": "ts-node -T src/server"
   },
   "name": "openmath-json",
   "version": "0.0.1",
   "description": " A Work-In-Progress on an (as yet unofficial) OpenMath JSON Encoding ",
-  "main": "index.js",
+  "main": "src/index.ts",
   "repository": "git@github.com:tkw1536/OpenMath-JSON.git",
   "author": "Tom Wiesing <tkw01536@gmail.com>",
-  "license": "CC-BY-3.0"
+  "license": "CC-BY-3.0",
+  "devDependencies": {
+    "@types/mocha": "^5.2.5",
+    "mocha": "^5.2.0"
+  }
 }
