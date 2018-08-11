@@ -1,4 +1,35 @@
-import { OMR, OMA, OMI, OMF, OMS, OMV, OMSTR, OMB, OMOBJ, OMBIND, OMATTR, OME } from "../src/schema/openmath";
+import { OMR, OMA, OMI, OMF, OMS, OMV, OMSTR, OMB, OMOBJ, OMBIND, OMATTR, OME } from "./openmath";
+
+
+// the integer 10, in 3 possible representations
+export const int10asNative: OMI = {
+    kind: 'OMI', 
+    integer: 10
+}
+
+export const int10asDec: OMI = {
+    kind: 'OMI', 
+    decimal: '10'
+}
+
+export const integer10asHex: OMI = {
+    kind: 'OMI', 
+    hexadecimal: 'xA'
+}
+
+// the integer -120, in 3 possible representations
+export const integerN120asNative: OMI = {
+    kind: 'OMI',
+    integer: -120
+}
+export const integerN120asDec: OMI = {
+    kind: 'OMI',
+    decimal: '-120'
+}
+export const integerN120asHex: OMI = {
+    kind: 'OMI',
+    hexadecimal: '-x78'
+}
 
 // a few different symbols
 export const symbolSIN: OMS = {
