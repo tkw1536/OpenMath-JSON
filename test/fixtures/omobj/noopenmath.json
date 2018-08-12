@@ -1,0 +1,7 @@
+{
+    "kind": "OMOBJ",
+    "object": {
+        "kind": "OMSTR",
+        "string": "Hello world"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "kind": "OMOBJ",
+    "openmath": "2.0",
+    "object": {
+        "kind": "OMSTR",
+        "string": "Hello world"
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "kind": "OMBIND",
+    "binder": {
+        "kind": "OMS",
+        "cd": "fns1",
+        "name": "lambda"
+    },
+    "variables": [
+        {
+            "kind": "OMV",
+            "name": "x"
+        }
+    ],
+    "object": {
+        "kind": "OMA",
+        "applicant": {
+            "kind": "OMS",
+            "cd": "transc1",
+            "name": "sin"
+        },
+        "arguments": [
+            {
+                "kind": "OMV",
+                "name": "x"
+            }
+        ]
+    }
+}

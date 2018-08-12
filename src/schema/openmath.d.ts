@@ -224,7 +224,7 @@ type float = number;
 /**
  * A string representing a decimal floating-point number
  * 
- * @pattern ^(-?)([0-9]+)?("."[0-9]+)?([eE](-?)[0-9]+)?$
+ * @pattern ^(-?)([0-9]+)?(\.[0-9]+)?([eE](-?)[0-9]+)?$
  */
 type decimalFloat = string;
 

@@ -1,0 +1,1 @@
+<OMBIND xmlns="http://www.openmath.org/OpenMath"><OMS cd="fns1" name="lambda"/><OMBVAR><OMV name="x"/></OMBVAR><OMA><OMS cd="transc1" name="sin"/><OMV name="x"/></OMA></OMBIND>

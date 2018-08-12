@@ -1,5 +1,7 @@
 import {omany, omel, OMOBJ, OMS, OMFOREIGN, OME, OMV, OMI, OMB, OMSTR, OMF, OMA, OMBIND, attvars, attvar, OMATTR, omattributes, OMR} from "../schema/openmath";
 
+import {XMLSerializer} from "xmldom";
+
 // #region "Helper Functions"
 
 /**
@@ -41,7 +43,7 @@ function makeJSONAttribute<T extends omany, S extends keyof T>(
         resultName = xmlName as S;
     }
     if(node.hasAttribute(xmlName)){
-        if(converter){
+        if(typeof converter === 'function'){
             result[resultName] = converter(node.getAttribute(xmlName));
         } else {
             // assume that the converter is the identity
@@ -79,7 +81,7 @@ export function convert(xml: Element): omany {
 function convertomany(node: Element): omany {
     switch(node.nodeName.toUpperCase()){
         case 'OMOBJ':
-            return convertOMObj(node);
+            return convertOMOBJ(node);
         case 'OMFOREIGN':
             return convertOMFOREIGN(node);
         default:
@@ -87,7 +89,7 @@ function convertomany(node: Element): omany {
     }
 }
 
-function convertOMObj(node: Element): OMOBJ {
+function convertOMOBJ(node: Element): OMOBJ {
     assertNodeType(node, 'OMOBJ');
     const nodeChildren = getChildElements(node);
 
@@ -206,7 +208,7 @@ function convertOMB(node: Element): OMB {
 
     const omb: Partial<OMB> = {
         kind: "OMB",
-        base64: node.textContent,
+        base64: node.textContent.trim(),
     };
 
     return makeJSON(
@@ -231,11 +233,17 @@ function convertOMF(node: Element): OMF {
         kind: "OMF"
     };
 
+    // set the decimal attribute
+    if(node.hasAttribute('dec')){
+        omf['decimal'] = node.getAttribute('dec');
+    } else {
+        omf['hexadecimal'] = node.getAttribute('hex');
+    }
+
     return makeJSON(
         node, omf,
         [ 
-            'id',
-            (node.hasAttribute('dec') ? 'decimal' : 'hexadecimal') as keyof OMF
+            'id'
         ]
     );
 }
@@ -346,8 +354,8 @@ function convertOMATP(node: Element): omattributes {
 
     let attributes: ([OMS, omel|OMFOREIGN])[]  = [];
     
-    var nodeChildren = getChildElements(node);
-    for(var i = 0; i < nodeChildren.length + 1; i = i + 2){
+    const nodeChildren = getChildElements(node);
+    for(let i = 0; i + 1 < nodeChildren.length; i = i + 2){
         attributes.push(
             [
                 convertOMS(nodeChildren[i]),
@@ -376,13 +384,14 @@ function convertOMR(node: Element): OMR {
     )
 }
 
+const serializer = new XMLSerializer();
 function convertOMFOREIGN(node: Element): OMFOREIGN {
     assertNodeType(node, 'OMFOREIGN');
 
     // TODO: We should handle omels
     const omforeign: Partial<OMFOREIGN> = {
         kind: "OMFOREIGN",
-        foreign: node.innerHTML,
+        foreign: serializer.serializeToString(node.childNodes[0])
     }
 
     return makeJSON(

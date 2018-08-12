@@ -1,0 +1,31 @@
+{
+    "kind": "OMATTR",
+    "attributes": [
+        [
+            {
+                "kind": "OMS",
+                "cd": "annotations1",
+                "name": "presentation-form"
+            },
+            {
+                "kind": "OMFOREIGN",
+                "encoding": "text/x-latex",
+                "foreign": "\\sin(x)"
+            }
+        ]
+    ],
+    "object": {
+        "kind": "OMA",
+        "applicant": {
+            "kind": "OMS",
+            "cd": "transc1",
+            "name": "sin"
+        },
+        "arguments": [
+            {
+                "kind": "OMV",
+                "name": "x"
+            }
+        ]
+    }
+}

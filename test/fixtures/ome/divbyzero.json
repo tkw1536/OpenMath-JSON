@@ -1,0 +1,28 @@
+{
+    "kind": "OME",
+    "error": {
+        "kind": "OMS",
+        "cd": "aritherror",
+        "name": "DivisionByZero"
+    },
+    "arguments": [
+        {
+            "kind": "OMA",
+            "applicant": {
+                "kind": "OMS",
+                "cd": "arith1",
+                "name": "divide"
+            },
+            "arguments": [
+                {
+                    "kind": "OMV",
+                    "name": "x"
+                },
+                {
+                    "kind": "OMI",
+                    "integer": 0
+                }
+            ]
+        }
+    ]
+}

@@ -45,7 +45,7 @@ function setAttribute(node: Element, name: string, value: string) {
  * @param properties List of properties to read
  */
 function makeProps<T extends omany>(obj: T, ...properties: (keyof T)[]) : {[key: string]: any} {
-    const theProps: {[key: string]: any}  = {};
+    const theProps: {[key: string]: any} = {};
     properties.forEach((p: keyof T) => {
         const prop = obj[p];
         if(typeof prop !== "undefined"){
@@ -73,11 +73,17 @@ function convertomany(json: omany) : Element {
 }
 
 function convertOMOBJ(json: OMOBJ) : Element {
-    return makeElement(
+    const node = makeElement(
         'OMOBJ', json, 
         ['id'],
         convertomel(json.object)
     );
+
+    if(json['openmath'] === '2.0'){
+        setAttribute(node, 'version', '2.0');
+    }
+
+    return node;
 }
 
 function convertomel(json: omel): Element {
@@ -157,7 +163,7 @@ function convertOMB(json: OMB): Element {
 
 function convertOMSTR(json: OMSTR): Element {
     return makeElement(
-        'OMS', json,
+        'OMSTR', json,
         ['id'], 
         document.createTextNode(json.string)
     )
@@ -198,7 +204,7 @@ function convertOMBIND(json: OMBIND): Element {
     const object = convertomel(json.object);
 
     return makeElement(
-        'OMA', json, 
+        'OMBIND', json, 
         ['id', 'cdbase'], 
         binder, ombvar, object
     );
@@ -260,7 +266,7 @@ function convertOMFOREIGN(json: OMFOREIGN): Element {
     const foreign = document.createTextNode(json.foreign);
 
     return makeElement(
-        'OMR', json,
+        'OMFOREIGN', json,
         ['id', 'encoding', 'cdbase'],
         foreign
     );

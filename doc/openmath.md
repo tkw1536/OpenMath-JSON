@@ -160,7 +160,7 @@ The schema uses the following helper types:
   Uses the regular expression `^-?x[0-9A-F]+.$`. 
 * `float`: any IEEE 32-bit integer, represented as a native JSON integer. 
 * `decimalFloat`: a string representing the decimal expansion of an IEEE floating point number. 
-  Uses the regular expression `^(-?)([0-9]+)?("."[0-9]+)?([eE](-?)[0-9]+)?$`. 
+  Uses the regular expression `^(-?)([0-9]+)?(\.[0-9]+)?([eE](-?)[0-9]+)?`. 
 * `hexFloat`: a string representing the hexadecimal expansion of an IEEE floating point number.  
   Uses the regular expression `^([0-9A-F]+)$`. 
 * `byte`: a byte of data represented as an integer, between `0` and `255` (inclusive). 

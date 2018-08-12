@@ -1,4 +1,4 @@
-import { OMR, OMA, OMI, OMF, OMS, OMV, OMSTR, OMB, OMOBJ, OMBIND, OMATTR, OME } from "./openmath";
+import { OMR, OMA, OMI, OMF, OMS, OMV, OMSTR, OMB, OMOBJ, OMBIND, OMATTR, OME } from "../src/schema/openmath";
 
 
 // the integer 10, in 3 possible representations

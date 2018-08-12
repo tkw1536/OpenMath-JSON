@@ -1,0 +1,1 @@
+<OME xmlns="http://www.openmath.org/OpenMath"><OMS cd="aritherror" name="DivisionByZero"/><OMA><OMS cd="arith1" name="divide"/><OMV name="x"/><OMI>0</OMI></OMA></OME>

@@ -1,0 +1,14 @@
+{
+    "kind": "OMA",
+    "applicant": {
+        "kind": "OMS",
+        "cd": "transc1",
+        "name": "sin"
+    },
+    "arguments": [
+        {
+            "kind": "OMV",
+            "name": "x"
+        }
+    ]
+}

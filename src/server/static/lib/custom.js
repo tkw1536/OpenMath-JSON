@@ -55,20 +55,20 @@ $(function(){
     
         "Sin Symbol": '<OMS xmlns="http://www.openmath.org/OpenMath" cdbase="http://www.openmath.org/cd" cd="transc1" name="sin"/>',
     
-        "String": '<OMS xmlns="http://www.openmath.org/OpenMath">Hello world</OMS>',
+        "String": '<OMSTR xmlns="http://www.openmath.org/OpenMath">Hello world</OMSTR>',
     
         "Byte Array": '<OMB xmlns="http://www.openmath.org/OpenMath">aGVsbG8gd29ybGQ=</OMB>',
     
         "Application": '<OMA xmlns="http://www.openmath.org/OpenMath"><OMS cd="transc1" name="sin"/><OMV name="x"/></OMA>',
     
-        "Binding": '<OMA xmlns="http://www.openmath.org/OpenMath"><OMS cd="fns1" name="lambda"/><OMBVAR><OMV name="x"/></OMBVAR><OMA><OMS cd="transc1" name="sin"/><OMV name="x"/></OMA></OMA>',
+        "Binding": '<OMBIND xmlns="http://www.openmath.org/OpenMath"><OMS cd="fns1" name="lambda"/><OMBVAR><OMV name="x"/></OMBVAR><OMA><OMS cd="transc1" name="sin"/><OMV name="x"/></OMA></OMBIND>',
     
         "Simple Attribution": '<OMATTR xmlns="http://www.openmath.org/OpenMath"><OMATP><OMS cd="ecc" name="type"/><OMS cd="ecc" name="real"/></OMATP><OMV name="x"/></OMATTR>',
-        "Complex Attribution": '<OMATTR xmlns="http://www.openmath.org/OpenMath"><OMATP><OMS cd="annotations1" name="presentation-form"/><OMR encoding="text/x-latex">\\sin(x)</OMR></OMATP><OMA><OMS cd="transc1" name="sin"/><OMV name="x"/></OMA></OMATTR>',
+        "Complex Attribution": '<OMATTR xmlns="http://www.openmath.org/OpenMath"><OMATP><OMS cd="annotations1" name="presentation-form"/><OMFOREIGN encoding="text/x-latex">\\sin(x)</OMFOREIGN></OMATP><OMA><OMS cd="transc1" name="sin"/><OMV name="x"/></OMA></OMATTR>',
 
         "Error": '<OME xmlns="http://www.openmath.org/OpenMath"><OMS cd="aritherror" name="DivisionByZero"/><OMA><OMS cd="arith1" name="divide"/><OMV name="x"/><OMI>0</OMI></OMA></OME>',
 
-        "Wrapped Object": '<OMOBJ xmlns="http://www.openmath.org/OpenMath"><OMS>Hello world</OMS></OMOBJ>',
+        "Wrapped Object": '<OMOBJ xmlns="http://www.openmath.org/OpenMath"><OMSTR>Hello world</OMSTR></OMOBJ>',
     
         "Object with References": '<OMOBJ xmlns="http://www.openmath.org/OpenMath"><OMA><OMV name="f"/><OMA id="t1"><OMV name="f"/><OMA id="t11"><OMV name="f"/><OMV name="a"/><OMV name="a"/></OMA><OMR href="#t11"/></OMA><OMR href="#t1"/></OMA></OMOBJ>'
     };

@@ -71,6 +71,27 @@ function declareFixtureTest(name: string, desc: string, base?: string){
     });
 }
 
+describe('OpenMath Object (OMOBJ)', () => {
+    [
+        [ 'omobj/wrapped',    'wrapped string'],
+        [ 'omobj/noopenmath', 'object without openmath']
+    
+    ].forEach(args => {declareFixtureTest(args[0], args[1], 'OMOBJ')});
+});
+
+describe('OpenMath Symbols (OMS)', () => {
+    [
+        [ 'oms/sin', 'sin symbol']
+
+    ].forEach(args => {declareFixtureTest(args[0], args[1], 'OMS')});
+});
+
+describe('OpenMath Variables (OMV)', () => {
+    [
+        [ 'omv/varx', 'variable x']
+
+    ].forEach(args => {declareFixtureTest(args[0], args[1], 'OMV')});
+});
 
 describe('OpenMath Integers (OMI)', () => {
     [
@@ -85,11 +106,75 @@ describe('OpenMath Integers (OMI)', () => {
     ].forEach(args => {declareFixtureTest(args[0], args[1], 'OMI')});
 });
 
-
-describe('OpenMath Symbols (OMS)', () => {
+describe('OpenMath Floats (OMF)', () => {
     [
-        [ 'oms/sin', 'sin symbol']
+        [ 'omf/dec', 'Decimal 10^-10'], 
+        ['>omf/float', 'Float 1e-10'],
+        [ 'omf/hex', 'Hexadecimal 2EDBE6FF'],
 
-    ].forEach(args => {declareFixtureTest(args[0], args[1], 'OMS')});
+    ].forEach(args => {declareFixtureTest(args[0], args[1], 'OMF')});
 });
 
+// TODO: OMF
+// here
+
+describe('OpenMath Bytes (OMB)', () => {
+    [
+        ['>ombytes/bytearray', 'an array of bytes'],
+        [ 'ombytes/base64',    'base64-encoded bytes']
+
+    ].forEach(args => {declareFixtureTest(args[0], args[1], 'OMB')});
+});
+
+describe('OpenMath Strings (OMSTR)', () => {
+    [
+        [ 'omstr/string', 'a string']
+
+    ].forEach(args => {declareFixtureTest(args[0], args[1], 'OMSTR')});
+});
+
+describe('OpenMath Application (OMA)', () => {
+    [
+        [ 'oma/application',      'an application'],
+        ['>oma/emptyapplication', 'an empty application']
+
+    ].forEach(args => {declareFixtureTest(args[0], args[1], 'OMA')});
+});
+
+describe('OpenMath Attribution (OMATTR)', () => {
+    [
+        [ 'omattr/simple',  'simple attribution'],
+        [ 'omattr/complex', 'complex attribution']
+    
+    ].forEach(args => {declareFixtureTest(args[0], args[1], 'OMATTR')});
+});
+
+describe('OpenMath Binding (OMBIND)', () => {
+    [
+        [ 'omb/binding', 'a binding']
+    
+    ].forEach(args => {declareFixtureTest(args[0], args[1], 'OMBIND')});
+});
+
+
+describe('OpenMath Error (OME)', () => {
+    [
+        [ 'ome/divbyzero',  'division by zero']
+    
+    ].forEach(args => {declareFixtureTest(args[0], args[1], 'OME')});
+});
+
+describe('OpenMath Error (OMFOREIGN)', () => {
+    [
+        [ 'omforeign/string',  'foreign string'], 
+        ['<omforeign/xml',  'foreign xml']
+    
+    ].forEach(args => {declareFixtureTest(args[0], args[1], 'OMFOREIGN')});
+});
+
+describe('OpenMath Reference (OMR)', () => {
+    [
+        [ 'omr/simple',    'a referenced object'],
+    
+    ].forEach(args => {declareFixtureTest(args[0], args[1])});
+});

@@ -1,0 +1,48 @@
+{
+    "kind": "OMOBJ",
+    "object": {
+        "kind": "OMA",
+        "applicant": {
+            "kind": "OMV",
+            "name": "f"
+        },
+        "arguments": [
+            {
+                "kind": "OMA",
+                "id": "t1",
+                "applicant": {
+                    "kind": "OMV",
+                    "name": "f"
+                },
+                "arguments": [
+                    {
+                        "kind": "OMA",
+                        "id": "t11",
+                        "applicant": {
+                            "kind": "OMV",
+                            "name": "f"
+                        },
+                        "arguments": [
+                            {
+                                "kind": "OMV",
+                                "name": "a"
+                            },
+                            {
+                                "kind": "OMV",
+                                "name": "a"
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "OMR",
+                        "href": "#t11"
+                    }
+                ]
+            },
+            {
+                "kind": "OMR",
+                "href": "#t1"
+            }
+        ]
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "kind": "OMATTR",
+    "attributes": [
+        [
+            {
+                "kind": "OMS",
+                "cd": "ecc",
+                "name": "type"
+            },
+            {
+                "kind": "OMS",
+                "cd": "ecc",
+                "name": "real"
+            }
+        ]
+    ],
+    "object": {
+        "kind": "OMV",
+        "name": "x"
+    }
+}
