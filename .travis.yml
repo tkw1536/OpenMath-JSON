@@ -7,6 +7,6 @@ install: yarn
 
 script:
   # generate the schema, and check that the file exists
-  - yarn saveschema && [ -f dist/openmath.json ]
+  - yarn --silent genschema > src/schema/openmath.json.test && diff src/schema/openmath.json src/schema/openmath.json.test
   # check that the example typecheck
   - yarn test
