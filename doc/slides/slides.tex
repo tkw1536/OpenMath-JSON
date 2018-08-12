@@ -249,16 +249,16 @@
 \begin{frame}
     \frametitle{Towards an OpenMath JSON Formalization (3)}
     \begin{itemize}
-        \item We wrote a JSON Schema
+        \item Wrote a JSON Schema
         \begin{itemize}
             \item was written as described above
             \item we will give an overview how this looks below
         \end{itemize}
-        \item We also wrote a translator from OpenMath XML to JSON
-        \begin{itemize}
-            \item a RESTful interface as part of MMT% TODO: Should we mention what MMT is
-            \item was quick to implement given an existing XML implementation
-        \end{itemize}
+        \item Wrote a translator from OpenMath XML to JSON (we have actually built two)
+        \begin{enumerate}
+            \item web demo on (\url{https://omjson.kwarc.info})
+            \item as part of MMT (i.e. Scala) in the form of a RESTful API
+        \end{enumerate}
     \end{itemize}
 \end{frame}
 
@@ -825,7 +825,7 @@
         \end{itemize}
         \item existing approaches had disadvantages, so we developed our own
         \begin{itemize}
-            \item simple to translate to/from the XML Encoding (we have built a translator)
+            \item simple to translate to/from the XML Encoding (see \url{https://omjson.kwarc.info/})
             \item uses JSON-native data types
         \end{itemize}
         %\item can be used for protocols based on OpenMath, such as SCSCP
