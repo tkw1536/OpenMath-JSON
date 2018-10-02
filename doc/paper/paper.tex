@@ -1,0 +1,78 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage[show]{ed}
+
+% listings syntax highlighting for JSOn
+\usepackage{listings}
+
+\colorlet{bool}{red}
+\colorlet{string}{blue}
+\colorlet{number}{orange}
+\colorlet{comment}{OliveGreen}
+\colorlet{type}{purple}
+
+\lstset{
+    basicstyle=\small\ttfamily,
+    columns=fullflexible,
+    % strings
+    string=[s]{"}{"},
+    stringstyle=\color{string},
+    % booleans
+    keywords={true,false},
+    keywordstyle=\color{bool},
+    % comments
+    comment=[s]{/*}{*/},
+    morecomment=[l]{//},
+    commentstyle=\color{comment},
+    % types
+    morekeywords=[2]{base64string,omel,uri,name,any,string,integer,decimalInteger,hexInteger,float,decimalFloat,hexFloat,byte,OMFOREIGN,OMV,attvar},
+    keywordstyle=[2]{\color{type}},
+}
+
+% digits
+\lstset{literate=%
+   *{0}{{{\color{number}0}}}1
+    {1}{{{\color{number}1}}}1
+    {2}{{{\color{number}2}}}1
+    {3}{{{\color{number}3}}}1
+    {4}{{{\color{number}4}}}1
+    {5}{{{\color{number}5}}}1
+    {6}{{{\color{number}6}}}1
+    {7}{{{\color{number}7}}}1
+    {8}{{{\color{number}8}}}1
+    {9}{{{\color{number}9}}}1
+    {e-}{{{\color{number}e-}}}2
+    {-}{{{\color{number}-}}}1
+    {.}{{{\color{number}.}}}1
+    {base64string}{{{\color{type}base64string}}}{12}%keyword gets caught by number, so escape it
+}
+
+
+\title{A Proposal for an OpenMath JSON Encoding\\OpenMath workshop CICM 2018}
+\author{Tom Wiesing}
+
+\begin{document}
+    \maketitle
+
+    \begin{abstract}
+        OpenMath is a semantic representation of mathematical objects. 
+
+        There are several encodings of OpenMath Objects, most notably the XML and Binary encodings. 
+        JSON is a lightweight data-interchange format that is present natively in many programming languages. 
+        
+        A few OpenMath JSON encodings already exist, which all have their advantages and disadvantages. 
+        These commonly correspond to a naive representation of the XML encoding and thus do not make use of some of the features that JSON offers. 
+        
+        In this paper we propose a new OpenMath JSON encoding, which combines the advantages of the above. 
+    \end{abstract}
+
+    \ednote{Citations}
+    \ednote{Flow}
+
+    \input{intro.tex}
+    \input{encoding.tex}
+    \input{future.tex}
+    
+\end{document}
