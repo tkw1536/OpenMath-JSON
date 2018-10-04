@@ -1,0 +1,29 @@
+\section{The OpenMath-JSON encoding}
+
+\subsection{Architecture}
+
+\subsection{Encoding Details}
+
+\subsection{The Demo Site}
+
+To demonstrate our OpenMath-JSON encoding, we have created a demo site which can be found at \ednote{cite http://omjson.kwarc.info}. 
+This site is implemented in TypeScript\ednote{cite typescript} and encapsulated using Docker\ednote{cite docker}. 
+
+The demo site serves three purposes.
+
+Primarily, it serves as a presentation of the encoding, providing examples and documenting it's usage. 
+
+Secondly, it enables validation of OpenMath JSON objects. This can be seen in Figure\ednote{Make figure}.
+The user can enter some JSON, press the \textit{Validate JSON} button, and receive immediate feedback if their JSON is a valid OpenMath object or not. 
+In particular, the user can also see a detailed error message if their object is not valid OpenMath JSON. 
+
+This makes use of the OpenMath JSON schema, and validates the users' JSON using a generic JSON Schema Validator. 
+Furthermore, this is also exposed using a REST API, enabling easy validation of OpenMath JSON in other applications. 
+
+Thirdly, it enables translation between XML and JSON OpenMath objects. 
+Like for validation, the site enables the user to enter some JSON and be presented with some XML and vice-versa. 
+This can be seen in Figure\ednote{Make figure + screenshot}.
+
+As we designed our encoding with this translatability goal in mind, the implementation of it was straight-forward. 
+Nonetheless, this translation is also exposed using a REST API. 
+\ednote{More}
