@@ -1,6 +1,10 @@
 \documentclass[12pt]{article}
 \usepackage{amsmath}
 
+% we use kwarc.bib
+\usepackage[backend=biber]{biblatex}
+\addbibresource{kwarc.bib}
+
 \usepackage[dvipsnames]{xcolor}
 \usepackage[show]{ed}
 
@@ -51,7 +55,7 @@
 
 
 \title{A Proposal for an OpenMath JSON Encoding\\OpenMath workshop CICM 2018}
-\author{Tom Wiesing}
+\author{Michael Kohlhase \and Tom Wiesing}
 
 \begin{document}
     \maketitle
@@ -68,11 +72,12 @@
         In this paper we propose a new OpenMath JSON encoding, which combines the advantages of the above. 
     \end{abstract}
 
-    \ednote{Citations}
-    \ednote{Flow}
+    \ednote{Need to make introduction + conclusion flow better}
+    \ednote{Styling?}
 
     \input{intro.tex}
     \input{encoding.tex}
     \input{conclusion.tex}
-    
+
+    \printbibliography
 \end{document}
