@@ -73,12 +73,62 @@ The second attribute -- \texttt{openmath} -- is defined as optional by our schem
 This indicates the version of OpenMath that is being used -- \lstinline{"2.0"} in our case. 
 
 The third and final attribute is the \texttt{object} attribute. 
-This contains the wrapped object -- it is defined as of \texttt{omel} type. \ednote{Do we want to keep this order?}
+This contains the wrapped object -- it is defined as of \texttt{omel} type. \ednote{Make sure the document is in this order?}
 This type \texttt{omel} can contain any OpenMath element -- concretly
-primitive objects (Bytes \texttt{OMB}, Integers \texttt{OMI}, Floats \texttt{OMF}, Strings \texttt{OMSTR}, Symbols \texttt{OMS}, Variables \texttt{OMV}), 
+primitive objects (Integers \texttt{OMI}, Floats \texttt{OMF}, Strings \texttt{OMSTR}, Bytes \texttt{OMB}, Symbols \texttt{OMS}, Variables \texttt{OMV}), 
 complex elements (Application \texttt{OMA}, Binding \texttt{OMBIND}, Attribution \texttt{OMATTR}) or
 Errors \texttt{OME} and References \texttt{OMR}. 
 In this particular case, we just have the integer $3$. 
+
+\subsubsection{Symbols -- OMS}
+
+An OpenMath Symbol is encoded as follows:
+\begin{lstlisting}
+{
+    "kind": "OMS",
+    /** the base for the cd, optional */
+    "cdbase": uri, /* any valid URI */, 
+    /** content dictonary the symbol is in, any uri */
+    "cd": uri,
+    /** name of the symbol */
+    "name": name /* any valid symbol name */
+}
+\end{lstlisting}
+
+Notice the \texttt{uri} and \texttt{name} types in the definition. 
+These are not directly JSON types. 
+We define the \texttt{uri} type to be a any JSON string that represents a valid URI. 
+Similarly, we define the \texttt{name} type to be any JSON string that represents a valid symbol name. 
+
+For example to encode the \texttt{sin} symbol from the \texttt{transc1} CD:
+\begin{lstlisting}
+{
+    "kind": "OMS",
+    "cd": "transc1",
+    "name": "sin"
+}
+\end{lstlisting}
+
+\subsubsection{Variables -- OMV}
+
+An OpenMath Variable is encoded as follows:
+\begin{lstlisting}
+{
+    "kind": "OMV",
+    /** name of the variable */
+    "name": name
+}
+\end{lstlisting}
+
+We again make use of the \texttt{name} type here. 
+
+For example to encode a variable $x$:
+\begin{lstlisting}
+{
+    "kind": "OMV",
+    "name": "x"
+}
+\end{lstlisting}
 
 \subsection{The Demo Site}
 
