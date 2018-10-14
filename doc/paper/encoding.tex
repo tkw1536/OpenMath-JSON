@@ -75,8 +75,8 @@ This indicates the version of OpenMath that is being used -- \lstinline{"2.0"} i
 The third and final attribute is the \texttt{object} attribute. 
 This contains the wrapped object -- it is defined as of \texttt{omel} type. \ednote{Make sure the document is in this order?}
 This type \texttt{omel} can contain any OpenMath element -- concretly
-primitive objects (Integers \texttt{OMI}, Floats \texttt{OMF}, Strings \texttt{OMSTR}, Bytes \texttt{OMB}, Symbols \texttt{OMS}, Variables \texttt{OMV}), 
-complex elements (Application \texttt{OMA}, Binding \texttt{OMBIND}, Attribution \texttt{OMATTR}) or
+primitive objects (Symbols \texttt{OMS}, Variables \texttt{OMV}, Integers \texttt{OMI}, Floats \texttt{OMF}, Bytes \texttt{OMB}, Strings \texttt{OMSTR}), 
+complex elements (Application \texttt{OMA}, Attribution \texttt{OMATTR}, Binding \texttt{OMBIND}) or
 Errors \texttt{OME} and References \texttt{OMR}. 
 In this particular case, we just have the integer $3$. 
 
@@ -129,6 +129,195 @@ For example to encode a variable $x$:
     "name": "x"
 }
 \end{lstlisting}
+
+\subsubsection{Integers -- OMI}
+
+Unlike the previous elements, our encoding allows integers to be encoded in three different ways. 
+In particular, we define them as follows:
+\begin{lstlisting}
+{
+    "kind": "OMI",
+    //
+    // exactly one of the following
+    //
+
+    /* any json integer */
+    "integer": integer,
+    /* any string matching ^-?[0-9]+$ */
+    "decimal": decimalInteger,
+    /* any string matching ^-?x[0-9A-F]+.$ */
+    "hexadecimal": hexInteger
+}
+\end{lstlisting}
+
+We allows integers to be represented as one of the following:
+\begin{description}
+    \item[JSON Integers]
+    Representing an OpenMath Integer as a JSON integer allows making use of datatypes that JSON offers. 
+    This was one of the goals we wanted to achieve with our encoding. 
+    
+    JSON has no integer type in and of itself -- it only provides a \texttt{number} type. 
+    To work around this in our schema, we define a custom integer type as any number that is an integer. 
+        
+    OpenMath integers can be of arbitrary size. 
+    While the JSON specification does not limit the size of numbers, it also allows any implementation the freedom to pick some limit. 
+    Thus for reasonably sized integers, this representation works well. 
+    But for larger numbers, the other two variants should be used. 
+
+    \item[Decimal Strings]
+    A second way to encode an OpenMath Integer is to make use of the straightforward decimal string encoding. 
+    This is any string consisting only of digits (and potentially having a minus sign in the case of a negative integer). 
+
+    \item[Hexademical String]
+    We can allow to encode an OpenMath Integer as a hexadecimal integer. 
+    To make this different from decimmally encoded integers, we require a lower-case x to be placed before the string. 
+    This also has the advantage that this corresponds exactly to the XML encoding.     
+\end{description}
+
+We can thus encode the integer $-120$ in three different ways:
+\begin{itemize}
+    \item as a JSON integer
+\begin{lstlisting}
+{
+    "kind": "OMI",
+    "integer": -120
+}
+\end{lstlisting}
+    \item as a decimal-encoded string
+\begin{lstlisting}
+{
+    "kind": "OMI",
+    "decimal": "-120"
+}
+\end{lstlisting}
+    \item as a hexadecimal-encoded string
+\begin{lstlisting}
+{
+    "kind": "OMI",
+    "hexadecimal": "-x78"
+}
+\end{lstlisting}
+\end{itemize}
+
+\subsubsection{Floats -- OMF}
+
+Like integers, we allow floats to be encoded in three different ways:
+\begin{lstlisting}
+{
+    "kind": "OMF",
+
+    //
+    // exactly one of the following
+    //
+
+    /* any json number */
+    "float": number,
+    /* any string matching 
+        (-?)([0-9]+)?(\.[0-9]+)?([eE](-?)[0-9]+)? */
+    "decimal": decimalFloat,
+    /* any string matching ^([0-9A-F]+)$ */
+    "hexadecimal": hexFloat 
+}
+\end{lstlisting}
+
+Here, the different cases work exactly like in the integer case. 
+
+We can represent a float either as a native JSON number, a string in decimal representation or a string in hexadecimal representation. 
+Just like above, the string representations correspond to the ones allowed by the XML encoding. 
+
+For example the floating point number $10^{-10}$ can be represented in three different ways:
+\begin{itemize}
+    \item as a JSON float
+\begin{lstlisting}
+{
+    "kind": "OMF",
+    "float": 1e-10
+}
+\end{lstlisting}
+    \item as a decimal-encoded string
+\begin{lstlisting}
+{
+    "kind": "OMF",
+    "decimal": "0.0000000001"
+}
+\end{lstlisting}
+    \item as a hexadecimal-encoded string
+\begin{lstlisting}
+{
+    "kind": "OMF",
+    "hexaecimal": "3DDB7CDFD9D7BDBB"
+}
+\end{lstlisting}
+\end{itemize}
+
+\subsubsection{Bytes -- OMB}
+
+Bytes can be encoded in two different ways:
+\begin{lstlisting}
+{
+    "kind": "OMB",
+    //
+    // exactly one of the following
+    //
+
+    /** an array of bytes
+        where a byte is an integer from 0 to 255 */
+    "bytes": byte[],
+    /** a base64 encoded string */
+    "base64": base64string
+}
+\end{lstlisting}
+
+\begin{description}
+    \item[Array of bytes]
+    This encoding again makes use of JSON datastructures -- representing bytes as a concrete list of bytes.
+    As the byte datatype does not exist directly in JSON, we represent a single byte as an integer between 0 and 255 (inclusive). 
+
+    \item[Base64 encoded string]
+    A base64-encoded string of bytes corresponds to the XML encoding. 
+\end{description}
+
+For example we can encode the ascii bytes of the string \textit{hello world}
+\begin{itemize}
+    \item as a byte array
+\begin{lstlisting}
+{
+    "kind": "OMB",
+    "bytes": [
+        104, 101, 108, 108, 111, 32, 
+        119, 111, 114, 108, 100
+    ]
+}
+\end{lstlisting}
+    \item as a base64-encoded string
+\begin{lstlisting}
+{
+    "kind": "OMB",
+    "base64": "aGVsbG8gd29ybGQ="
+}
+\end{lstlisting}
+\end{itemize}
+
+\subsubsection{Strings -- OMS}
+The encoding of strings is straightforward -- we can make use of native JSON strings. 
+\begin{lstlisting}
+{
+    "kind": "OMSTR", 
+    /** the string */
+    "string": string
+}
+\end{lstlisting}
+
+Thus the string \lstinline{"Hello world"} is encoded as follows:
+\begin{lstlisting}
+{
+    "kind": "OMSTR", 
+    "string": "Hello world"
+}
+\end{lstlisting}
+
+
+
 
 \subsection{The Demo Site}
 
