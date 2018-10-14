@@ -1,13 +1,89 @@
 \section{The OpenMath-JSON encoding}
 
-\subsection{Architecture}
+To formalize our encoding, we decided to use JSON Schema~\cite{handrewsjsonschema:18}. 
+This defines a vocabulary allowing us to validate and annotate JSON documents. 
+Additionally, tools for programatic verification exist in many languages. 
+
+Unfortunatly, JSON schema is often tedious to write and read for humans. 
+This is especially true when it comes to recursivly defined data strucutures.
+OpenMath has many recusrive structures.
+Instead of writing our encoding in JSON Schema directly, we decided to write the schema in a different language and then compile it to JSON Schema. 
+
+For this purpose, we decided to make use of TypeScript~\cite{typescript:webpage}. 
+TypeScript is a language derived from JavaScript -- TypeScript files are JavaScript plus type annotations. 
+As such, it can be easily written and understood by humans. 
+On top of typescript, we make use of a compiler~\cite{vega-ts-jscon-schema-generator:webpage} from TypeScript definitions into JSON Schema. 
 
 \subsection{Encoding Details}
+
+In general, objects in our encoding look similar to the following:
+\begin{lstlisting}
+{
+    "kind": "OMV",
+    "id": "something",
+    "name": "x"
+}
+\end{lstlisting}
+
+The \texttt{kind} attribute specifies which kind of OpenMath object this is. 
+These values correspond to the element names used in the XML encoding. 
+This correspondence lays the foundations of easy translation between the two. 
+In TypeScript this property is also refered to as a \textit{Type Guard}, because if \textit{guards} the type of object that is represented. 
+
+Like in the XML encoding it is possible to make use of structure sharing. 
+For this purpose the \texttt{id} attribute can be used. 
+We will come back to this in more detail below, when we define to the \texttt{OMR} type.
+
+In the following we will go over the details of our encoding. 
+For this we will make use of a TypeScript-like syntax, that is easily readable. 
+In our description we omit the \texttt{id} attribute, which can be added to any encoded object. 
+The complete source code of our encoding -- and details on how to use it -- can be found on Github~\cite{URL:openmathjson:github}. 
+
+\subsubsection{Object Constructor -- OMOBJ}
+
+The OpenMath Object Constructor -- \texttt{OMOBJ} -- is defined as follows:
+\begin{lstlisting}
+{
+    "kind": "OMOBJ",
+    /** optional version of openmath being used */
+    "openmath": "2.0",
+    /** the actual object */
+    "object": omel /* any element */
+}
+\end{lstlisting}
+Concretly, the integer 3 encapsulated in an object constructor using this encoding is as follows:
+\begin{lstlisting}
+{
+    "kind": "OMOBJ",
+    "openmath": "2.0",
+    "object": {
+        "kind": "OMI", 
+        "integer": 3
+    }
+}
+\end{lstlisting}
+
+Let us have a look at this first example attribute for attribute. 
+
+The first attribute -- \texttt{kind} -- represents the type of OpenMath object in question. 
+Notice that it occurs twice -- once in the \texttt{OMOBJ} and a second time in the wrapped \texttt{OMI}. 
+We will talk in detail about integer representation below, and hence only care about this first one. 
+
+The second attribute -- \texttt{openmath} -- is defined as optional by our schema. 
+This indicates the version of OpenMath that is being used -- \lstinline{"2.0"} in our case. 
+
+The third and final attribute is the \texttt{object} attribute. 
+This contains the wrapped object -- it is defined as of \texttt{omel} type. \ednote{Do we want to keep this order?}
+This type \texttt{omel} can contain any OpenMath element -- concretly
+primitive objects (Bytes \texttt{OMB}, Integers \texttt{OMI}, Floats \texttt{OMF}, Strings \texttt{OMSTR}, Symbols \texttt{OMS}, Variables \texttt{OMV}), 
+complex elements (Application \texttt{OMA}, Binding \texttt{OMBIND}, Attribution \texttt{OMATTR}) or
+Errors \texttt{OME} and References \texttt{OMR}. 
+In this particular case, we just have the integer $3$. 
 
 \subsection{The Demo Site}
 
 To demonstrate our OpenMath-JSON encoding, we have created a demo site which can be found at~\cite{openmathjson:web}. 
-This site is implemented in TypeScript\ednote{cite typescript} and encapsulated using Docker\ednote{cite docker}. 
+This site is implemented in TypeScript and encapsulated using Docker\cite{docker:webpage}. 
 
 The demo site serves three purposes.
 
