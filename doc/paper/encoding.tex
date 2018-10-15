@@ -1,8 +1,15 @@
 \section{The OpenMath-JSON encoding}\label{sec:encoding}
 
-To formalize our encoding, we decided to use JSON Schema~\cite{handrewsjsonschema:18}. 
-This defines a vocabulary allowing us to validate and annotate JSON documents. 
-Additionally, tools for programatic verification exist in many languages. 
+Given the disadvantages with the existing encodings we propose a new one that combines the
+advantages and alleviates the problems.  In particular, the new encoding should be close
+to the OpenMath XML encoding, and at the same time make use of native JSON concepts.
+
+Furthermore, we want to formalize this encoding by providing a JSON schema for easy
+validation, which is not achieved by any existing approach.
+
+Concretely, we will use JSON Schema~\cite{handrewsjsonschema:18}.  This defines a
+vocabulary allowing us to validate and annotate JSON documents.  Additionally, tools for
+programatic verification exist in many languages.
 
 Unfortunately, JSON schema is often tedious to write and read for humans. 
 This is especially true when it comes to recursively defined data structures.
@@ -14,10 +21,9 @@ TypeScript is a language derived from JavaScript -- TypeScript files are JavaScr
 As such, it can be easily written and understood by humans. 
 On top of typescript, we make use of a compiler~\cite{vega-ts-jscon-schema-generator:webpage} from TypeScript definitions into JSON Schema. 
 
-\subsection{Encoding Details}
-
 In general, objects in our encoding look similar to the following:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMV",
     "id": "something",
@@ -30,19 +36,20 @@ These values correspond to the element names used in the XML encoding.
 This correspondence lays the foundations of easy translation between the two. 
 In TypeScript this property is also referred to as a \textit{Type Guard}, because if \textit{guards} the type of object that is represented. 
 
-Like in the XML encoding it is possible to make use of structure sharing. 
-For this purpose the \texttt{id} attribute can be used. 
-We will come back to this in more detail below, when we define to the \texttt{OMR} type.
+As in the XML encoding it is possible to make use of structure sharing.  For this purpose
+the \texttt{id} attribute can be used.  We will come back to this in more detail below,
+when we define to the \texttt{OMR} type.
 
 In the following we will go over the details of our encoding. 
 For this we will make use of a TypeScript-like syntax, that is easily readable. 
 In our description we omit the \texttt{id} attribute, which can be added to any encoded object. 
 The complete source code of our encoding -- and details on how to use it -- can be found on Github~\cite{URL:openmathjson:github}. 
 
-\subsubsection{Object Constructor -- OMOBJ}
+\subsection{Object Constructor -- OMOBJ}
 
 The OpenMath Object Constructor -- \texttt{OMOBJ} -- is defined as follows:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMOBJ",
     /** optional version of openmath being used */
@@ -50,9 +57,11 @@ The OpenMath Object Constructor -- \texttt{OMOBJ} -- is defined as follows:
     /** the actual object */
     "object": omel /* any element */
 }
-\end{lstlisting}\end{minipage}
+\end{lstlisting}
+\end{minipage}
 Concretely, the integer 3 encapsulated in an object constructor using this encoding is as follows:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMOBJ",
     "openmath": "2.0",
@@ -80,16 +89,17 @@ complex elements (Application \texttt{OMA}, Attribution \texttt{OMATTR}, Binding
 Errors \texttt{OME} and References \texttt{OMR}. 
 In this particular case, we just have the integer $3$. 
 
-\subsubsection{Symbols -- OMS}
+\subsection{Symbols -- OMS}
 
 An OpenMath Symbol is encoded as follows:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMS",
     /** the base for the cd, optional */
     "cdbase"?: uri, /* any valid URI */, 
     /** content dictonary the symbol is in, any uri */
-    "cd": uri,
+    "cd": name,
     /** name of the symbol */
     "name": name /* any valid symbol name */
 }
@@ -101,7 +111,8 @@ We define the \texttt{uri} type to be a any JSON string that represents a valid 
 Similarly, we define the \texttt{name} type to be any JSON string that represents a valid symbol name. 
 
 For example to encode the \texttt{sin} symbol from the \texttt{transc1} CD:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMS",
     "cd": "transc1",
@@ -109,10 +120,11 @@ For example to encode the \texttt{sin} symbol from the \texttt{transc1} CD:
 }
 \end{lstlisting}\end{minipage}
 
-\subsubsection{Variables -- OMV}
+\subsection{Variables -- OMV}
 
 An OpenMath Variable is encoded as follows:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMV",
     /** name of the variable */
@@ -123,18 +135,20 @@ An OpenMath Variable is encoded as follows:
 We again make use of the \texttt{name} type here. 
 
 For example to encode a variable $x$:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMV",
     "name": "x"
 }
 \end{lstlisting}\end{minipage}
 
-\subsubsection{Integers -- OMI}
+\subsection{Integers -- OMI}
 
 Unlike the previous elements, our encoding allows integers to be encoded in three different ways. 
 In particular, we define them as follows:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMI",
     //
@@ -177,21 +191,24 @@ We allows integers to be represented as one of the following:
 We can thus encode the integer $-120$ in three different ways:
 \begin{itemize}
     \item as a JSON integer
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+      \\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMI",
     "integer": -120
 }
 \end{lstlisting}\end{minipage}
     \item as a decimal-encoded string
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+      \\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMI",
     "decimal": "-120"
 }
 \end{lstlisting}\end{minipage}
     \item as a hexadecimal-encoded string
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+      \\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMI",
     "hexadecimal": "-x78"
@@ -199,10 +216,11 @@ We can thus encode the integer $-120$ in three different ways:
 \end{lstlisting}\end{minipage}
 \end{itemize}
 
-\subsubsection{Floats -- OMF}
+\subsection{Floats -- OMF}
 
 Like integers, we allow floats to be encoded in three different ways:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMF",
 
@@ -218,7 +236,7 @@ Like integers, we allow floats to be encoded in three different ways:
     /* any string matching ^([0-9A-F]+)$ */
     "hexadecimal": hexFloat 
 }
-\end{lstlisting}\end{minipage}
+\end{lstlisting}\end{minipage}%$
 
 Here, the different cases work exactly like in the integer case. 
 
@@ -228,21 +246,24 @@ Just like above, the string representations correspond to the ones allowed by th
 For example the floating point number $10^{-10}$ can be represented in three different ways:
 \begin{itemize}
     \item as a JSON float
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMF",
     "float": 1e-10
 }
 \end{lstlisting}\end{minipage}
     \item as a decimal-encoded string
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMF",
     "decimal": "0.0000000001"
 }
 \end{lstlisting}\end{minipage}
     \item as a hexadecimal-encoded string
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMF",
     "hexaecimal": "3DDB7CDFD9D7BDBB"
@@ -250,10 +271,11 @@ For example the floating point number $10^{-10}$ can be represented in three dif
 \end{lstlisting}\end{minipage}
 \end{itemize}
 
-\subsubsection{Bytes -- OMB}
+\subsection{Bytes -- OMB}
 
 Bytes can be encoded in two different ways:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMB",
     //
@@ -280,7 +302,8 @@ Bytes can be encoded in two different ways:
 For example we can encode the ascii bytes of the string \textit{hello world}
 \begin{itemize}
     \item as a byte array
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+      \\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMB",
     "bytes": [
@@ -290,7 +313,8 @@ For example we can encode the ascii bytes of the string \textit{hello world}
 }
 \end{lstlisting}\end{minipage}
     \item as a base64-encoded string
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMB",
     "base64": "aGVsbG8gd29ybGQ="
@@ -298,9 +322,10 @@ For example we can encode the ascii bytes of the string \textit{hello world}
 \end{lstlisting}\end{minipage}
 \end{itemize}
 
-\subsubsection{Strings -- OMS}
+\subsection{Strings -- OMS}
 The encoding of strings is straightforward -- we can make use of native JSON strings. 
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMSTR", 
     /** the string */
@@ -309,17 +334,19 @@ The encoding of strings is straightforward -- we can make use of native JSON str
 \end{lstlisting}\end{minipage}
 
 Thus the string \lstinline{"Hello world"} is encoded as follows:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMSTR", 
     "string": "Hello world"
 }
 \end{lstlisting}\end{minipage}
 
-\subsubsection{Applications -- OMA}
+\subsection{Applications -- OMA}
 
 OpenMath Applications are encoded as follows:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMA", 
     /** the base for the cd, optional */
@@ -336,7 +363,8 @@ OpenMath Applications are encoded as follows:
 Here we again make use of the already known \texttt{omel} and \texttt{uri} types. 
 
 For example when encoding $\sin(x)$ we get:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMA",
     "applicant": {
@@ -351,10 +379,11 @@ For example when encoding $\sin(x)$ we get:
 }
 \end{lstlisting}\end{minipage}
 
-\subsubsection{Attributions -- OMATTR}
+\subsection{Attributions -- OMATTR}
 
 OpenMath Attributions are encoded as follows:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMATTR", 
     /** the base for the cd, optional */
@@ -374,7 +403,8 @@ Here we have a somewhat significant derivation from the XML encoding.
 This introduced an extra element \texttt{OMATTVAR} to represent the pairs -- this is not necessary for our case. 
 
 As an example, to attribute a variable $x$ as having real type:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMATTR",
     "attributes": [
@@ -390,10 +420,11 @@ As an example, to attribute a variable $x$ as having real type:
 }
 \end{lstlisting}\end{minipage}
 
-\subsubsection{Bindings -- OMB}
+\subsection{Bindings -- OMB}
 
 We encode bindings as:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMBIND", 
     /** the base for the cd, optional */
@@ -414,7 +445,8 @@ Here, the \texttt{variables} property is defined as a non-empty array of
 \end{itemize}
 
 For example to encode $\lambda x . \sin(x)$:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {  
     "kind": "OMBIND",
     "binder": 
@@ -433,10 +465,11 @@ For example to encode $\lambda x . \sin(x)$:
 }
 \end{lstlisting}\end{minipage}
 
-\subsubsection{Errors -- OME}
+\subsection{Errors -- OME}
 
 An OpenMath Error is encoded as follows:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OME", 
     /** the error that has occured */
@@ -447,7 +480,8 @@ An OpenMath Error is encoded as follows:
 \end{lstlisting}\end{minipage}
 
 For example, to annotate a division by zero error in $x/0$:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OME",
     "error":
@@ -465,11 +499,12 @@ For example, to annotate a division by zero error in $x/0$:
 }
 \end{lstlisting}\end{minipage}
 
-\subsubsection{Foreign Objects -- OMFOREIGN}
+\subsection{Foreign Objects -- OMFOREIGN}
 
 An OpenMath Foreign Object is an object that is not part of OpenMath. 
 In JSON, we can encode one such object as follows:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMFOREIGN",
     /** encoding of the foreign object, optional */
@@ -482,7 +517,8 @@ In JSON, we can encode one such object as follows:
 By nature of being JSON, Foreign objects inside the JSON encoding are obviously limited of being representable as JSON. 
 
 As a very simple example a latex math term could be represented as:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMFOREIGN",
     "encoding": "text/x-latex",
@@ -490,10 +526,11 @@ As a very simple example a latex math term could be represented as:
 }
 \end{lstlisting}\end{minipage}
 
-\subsubsection{References -- OMR}
+\subsection{References -- OMR}
 
 Finally, OpenMath References are represented as:
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMR"
     /** element that is being referenced */
@@ -507,7 +544,8 @@ Concretely, one can take any OpenMath object with an \texttt{id} attribute and r
 Consider as an example the term $f(f(f(a, a), f(a, a)), f(f(a, a), f(a, a)))$. 
 Informally, we can write this as $$f(\underbracket {f(\overbracket {f(a, a)}^y, y)}_x, x)$$. 
 In our encoding, this corresponds to
-\\\begin{minipage}{\linewidth}\begin{lstlisting}
+\\\begin{minipage}{\linewidth}
+\begin{lstlisting}
 {
     "kind": "OMOBJ",
     "object": {
@@ -531,50 +569,13 @@ In our encoding, this corresponds to
 \end{lstlisting}\end{minipage}
 
 
-\subsection{The Demo Site}
 
-To demonstrate our OpenMath-JSON encoding, we have created a demo site which can be found at~\cite{openmathjson:web}. 
-This site is implemented in TypeScript and encapsulated using Docker\cite{docker:webpage}. 
-
-The demo site serves three purposes.
-
-Primarily, it serves as a presentation of the encoding, providing examples and documenting it's usage. 
-
-\begin{figure}
-    \centering
-        \includegraphics[width=\textwidth]{images/validate}
-    \caption{Interface for validating an OpenMath object. }
-    \label{figure:validate}
-\end{figure}
-Secondly, it enables validation of OpenMath JSON objects. This can be seen in Figure~\ref{figure:validate}.
-The user can enter some JSON, press the \textit{Validate JSON} button, and receive immediate feedback if their JSON is a valid OpenMath object or not. 
-In particular, the user can also see a detailed error message if their object is not valid OpenMath JSON. 
-
-This makes use of the OpenMath JSON schema, and validates the users' JSON using a generic JSON Schema Validator. 
-Furthermore, this is also exposed using a REST API, enabling easy validation of OpenMath JSON in other applications. 
-
-\begin{figure}
-    \centering
-        \includegraphics[width=\textwidth]{images/xml2json}
-    \caption{Interface for converting OpenMath XML to JSON. }
-    \label{figure:xml2json}
-\end{figure}
-
-\begin{figure}
-    \centering
-        \includegraphics[width=\textwidth]{images/json2xml}
-    \caption{Interface for converting OpenMath JSON to XML. }
-    \label{figure:json2xml}
-\end{figure}
-
-Thirdly, it enables translation between XML and JSON OpenMath objects. 
-Like for validation, the site enables the user to enter some JSON and be presented with some XML and vice-versa. 
-This can be seen in Figures~\ref{figure:xml2json} and \ref{figure:json2xml}. 
-
-As we designed our encoding with this translatability goal in mind, the implementation of it was straight-forward. 
-Nonetheless, this translation is also exposed using a REST API. 
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "paper"
+%%% End:
 
 %  LocalWords:  handrewsjsonschema:18 vega-ts-jscon-schema-generator:webpage linewidth
-%  LocalWords:  texttt textit textit subsubsection omel transc1 Hexademical attvar
+%  LocalWords:  texttt textit textit subsection omel transc1 Hexademical attvar
 %  LocalWords:  underbracket overbracket openmathjson:web centering includegraphics
 %  LocalWords:  textwidth xml2json json2xml
