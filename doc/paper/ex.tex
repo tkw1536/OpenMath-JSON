@@ -41,7 +41,7 @@ It also has some disadvantages:
     Despite many JSON implementations providing such a functionality, in practice this would require frequent translation between strings and high-level datatypes.  
     This is not what JSON is intended for, instead the provided data types should be used. 
 
-    \item The akwardness of some of the XML encoding remains. 
+    \item The awkwardness of some of the XML encoding remains. 
     Due to the nature of XML the XML encoding sometimes needs to introduce elements that do not directly correspond to any OpenMath objects. 
     For example, the \textit{OMATP} element is used to encode a set of attribute / value pairs. 
     This introduces unnecessary overhead into JSON, as an array of values could be used instead. 
@@ -80,12 +80,10 @@ In this encoding, the term $\mathrm{plus}(x, 5)$ would correspond to:
 This encoding solves some of the disadvantages of the JSONML encoding, however it still has some drawbacks:
 
 \begin{itemize}
-    \item It was written as a JavaScript, not JSON, encoding.
-    The existing library provides JavaScript functions to encode OpenMath objects. 
-    However, the resulting JSON has only minimal names. 
-    This makes it difficult for humans to read and write directly. 
-
-    \item No formal schema exists, like in the JSONML encoding. 
+\item It was written as a JavaScript, not JSON, encoding.  The existing library provides
+  JavaScript functions to encode OpenMath objects.  However, the resulting JSON has only
+  minimal names.  This makes it difficult for humans to read and write directly.
+\item No formal schema exists, like in the JSONML encoding.
 \end{itemize}
 
 
@@ -100,3 +98,6 @@ Furthermore, we want to formalize this encoding, which is not achieved by any ex
 %%% mode: latex
 %%% TeX-master: "paper"
 %%% End:
+
+%  LocalWords:  jsonml:webpage mathrm textit openmath-js openmathjs:webpage ednote
+%  LocalWords:  Potientally

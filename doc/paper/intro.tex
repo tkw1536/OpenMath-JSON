@@ -1,112 +1,42 @@
 \section{Introduction}
 
-OpenMath \cite{BusCapCar:oms04} is a semantic representation of mathematical objects. 
-Because this paper is submitted to the OpenMath workshop, we will assume that reader is familar with OpenMath and will not introduce it further here. 
-\ednote{Is this OK?}
+OpenMath~\cite {BusCapCar:oms04} is a semantic representation format of mathematical
+objects and formulae. In a nutshell, OpenMath standardizes six basic object types
+(symbols, variables, numbers, strings, and foreign objects), three ways of building
+complex objects: (function) application, binding, and management facilities like structure
+sharing and error reporting. The OpenMath object model underlies Content
+MathML~\cite{CarlisleEd:MathML3:on}, making it well-integrated with MathML presentation
 
-JSON~\cite{JSON:web}, short for \textbf{J}ava\textbf{S}cript \textbf{O}bject \textbf{N}otation, is a lightweight data-interchange format. 
-While being a subset of JavaScript, it is defined independently. 
-JSON can represent both primitive types and composite types.
+There are several encodings of OpenMath Objects, most notably the XML and Binary
+encodings. In this paper we propose another one based on JSON a lightweight
+data-interchange format that used heavily in the Web Applications arena.
 
-Primitive JSON types are strings (e.g. \lstinline{"Hello world"}), Numbers (e.g. \lstinline{42} or \lstinline{3.14159265}), Booleans (\lstinline{true} and \lstinline{false}) and \lstinline{null}. 
-Composite JSON types are either (non-homogeneous) arrays (e.g. \lstinline{[1, "two", false]}) or key-value pairs called objects (e.g. \lstinline|{"foo": "bar", "answer": 42}|). 
+JSON~\cite{JSON:web}, short for \textbf{J}ava\textbf{S}cript \textbf{O}bject
+\textbf{N}otation, is a lightweight data-interchange format.  While being a subset of
+JavaScript, it is defined independently.  JSON can represent both primitive types and
+composite types.
 
-Constructs corresponding to JSON objects are found in most programming languages. 
-Futhermore, the syntax is very simple; hence many languages have built-in facilities for translating their existing data structures to and from JSON. 
-The use for an OpenMath JSON encoding is clear: It would enable easy use of OpenMath across many languages. 
+Primitive JSON data types are strings (e.g. \lstinline{"Hello world"}), Numbers
+(e.g. \lstinline{42} or \lstinline{3.14159265}), Booleans (\lstinline{true} and
+\lstinline{false}) and \lstinline{null}.  Composite JSON types are either
+(non-homogeneous) arrays (e.g. \lstinline{[1, "two", false]}) or key-value pairs called
+objects (e.g. \lstinline|{"foo": "bar", "answer": 42}|).
 
-There are existing approaches for encoding OpenMath as JSON. 
-We will discuss two particular ones here. 
+Constructs corresponding to JSON objects are found in most programming languages.
+Furthermore, the syntax is very simple; hence many languages have built-in facilities for
+translating their existing data structures to and from JSON.  The use for an OpenMath JSON
+encoding is clear: It would enable easy use of OpenMath across many languages.
 
-\paragraph{XML as JSON}
-The JSONML standard\cite{jsonml:webpage} allows generic encoding of arbitrary XML as JSON. 
-This can easily be adapted to the case of OpenMath. 
-To encode an OpenMath object as JSON, one first encodes it as XML and then makes use of JSONML in a second step. 
-Using this method, the term $\mathrm{plus}(x, 5)$ would correspond to: 
-\begin{lstlisting}
-[
-    "OMOBJ",
-    {"xmlns":"http://www.openmath.org/OpenMath"},
-    [
-        "OMA",
-        [
-            "OMS", 
-            {"cd": "arith1", "name": "plus"}
-        ],
-        [
-            "OMV", 
-            {"name": "x"}
-        ],
-        [
-            "OMI", 
-            "5"
-        ]
-    ]
-]
-\end{lstlisting}
+In the next Section we survey two existing OpenMath JSON
+encodings. Section~\ref{sec:encoding} proposes a new encoding that combines the advantages
+and alleviates their disadvantages. We give a thorough specification of the encoding,
+present a JSON schema implemented in TypeScript, and provide a web service that validates
+JSON-encoded OpenMath and transforms OpenMath objects between XML and JSON
+encodings. Section~\ref{sec:concl} concludes the paper.
 
-This translation has the advantage that it is near-trivial to translate between the XML and JSON encodings of OpenMath. 
-It also has some disadvantages: 
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "paper"
+%%% End:
 
-\begin{itemize}
-    \item The encoding does not use the native JSON datatypes. 
-    One of the advantages of JSON is that it can encode most basic data types directly, without having to turn the data values into strings. 
-    To encode the floating point value \lstinline{1e-10} (a valid JSON literal) using the JSONML encoding, one can not directly place it into the result. 
-    Instead, one has to turn it into a string first.   
-    Despite many JSON implementations providing such a functionality, in practice this would require frequent translation between strings and high-level datatypes.  
-    This is not what JSON is intended for, instead the provided data types should be used. 
-
-    \item The akwardness of some of the XML encoding remains. 
-    Due to the nature of XML the XML encoding sometimes needs to introduce elements that do not directly correspond to any OpenMath objects. 
-    For example, the \textit{OMATP} element is used to encode a set of attribute / value pairs. 
-    This introduces unnecessary overhead into JSON, as an array of values could be used instead. 
-
-    \item Many languages use JSON-like structures to implement structured data types. 
-    Thus it stands to reason that an OpenMath JSON encoding should also provide a schema to allow languages to implement OpenMath easily. This is not the case for a JSONML encoding. 
-\end{itemize}
-
-\paragraph{OpenMath-JS}
-The openmath-js~\cite{openmathjs:webpage} encoding takes a different approach. 
-It is an (incomplete) implementation of OpenMath in JavaScript and was developed by Nathan Carter for use with Lurch~\cite{CarterMonks:OM:CICM-WS-WiP2013} on the web. 
-It is written in literate coffee script, a derivative language of JavaScript. 
-
-In this encoding, the term $\mathrm{plus}(x, 5)$ would correspond to: 
-\begin{lstlisting}
-{  
-   "t":"a",
-   "c": [  
-      {  
-         "t":"sy",
-         "cd":"arith1",
-         "n":"plus"
-      },
-      {  
-         "t":"v",
-         "n":"x"
-      },
-      {  
-         "t":"i",
-         "v":"5"
-      }
-   ]
-}
-\end{lstlisting}
-
-This encoding solves some of the disadvantages of the JSONML encoding, however it still has some drawbacks:
-
-\begin{itemize}
-    \item It was written as a JavaScript, not JSON, encoding.
-    The existing library provides JavaScript functions to encode OpenMath objects. 
-    However, the resulting JSON has only minimal names. 
-    This makes it difficult for humans to read and write directly. 
-
-    \item No formal schema exists, like in the JSONML encoding. 
-\end{itemize}
-
-
-\ednote{Potientally re-formulate this}
-Given these disadvantages, it makes sense to instead create a new OpenMath-JSON encoding. 
-This encoding should combine the advantages of the above two. 
-
-In particular, it should be close to the XML encoding, and at the same time make use of native JSON concepts. 
-Furthermore, we want to formalize this encoding, which is not achieved by any existing approach, and thus enable easy validation. 
+%  LocalWords:  standardizes textbf textbf cript textbf bject otation sec:concl

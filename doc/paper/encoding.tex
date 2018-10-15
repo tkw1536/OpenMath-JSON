@@ -1,12 +1,12 @@
-\section{The OpenMath-JSON encoding}
+\section{The OpenMath-JSON encoding}\label{sec:encoding}
 
 To formalize our encoding, we decided to use JSON Schema~\cite{handrewsjsonschema:18}. 
 This defines a vocabulary allowing us to validate and annotate JSON documents. 
 Additionally, tools for programatic verification exist in many languages. 
 
-Unfortunatly, JSON schema is often tedious to write and read for humans. 
-This is especially true when it comes to recursivly defined data strucutures.
-OpenMath has many recusrive structures.
+Unfortunately, JSON schema is often tedious to write and read for humans. 
+This is especially true when it comes to recursively defined data structures.
+OpenMath has many recursive structures.
 Instead of writing our encoding in JSON Schema directly, we decided to write the schema in a different language and then compile it to JSON Schema. 
 
 For this purpose, we decided to make use of TypeScript~\cite{typescript:webpage}. 
@@ -28,7 +28,7 @@ In general, objects in our encoding look similar to the following:
 The \texttt{kind} attribute specifies which kind of OpenMath object this is. 
 These values correspond to the element names used in the XML encoding. 
 This correspondence lays the foundations of easy translation between the two. 
-In TypeScript this property is also refered to as a \textit{Type Guard}, because if \textit{guards} the type of object that is represented. 
+In TypeScript this property is also referred to as a \textit{Type Guard}, because if \textit{guards} the type of object that is represented. 
 
 Like in the XML encoding it is possible to make use of structure sharing. 
 For this purpose the \texttt{id} attribute can be used. 
@@ -51,7 +51,7 @@ The OpenMath Object Constructor -- \texttt{OMOBJ} -- is defined as follows:
     "object": omel /* any element */
 }
 \end{lstlisting}\end{minipage}
-Concretly, the integer 3 encapsulated in an object constructor using this encoding is as follows:
+Concretely, the integer 3 encapsulated in an object constructor using this encoding is as follows:
 \\\begin{minipage}{\linewidth}\begin{lstlisting}
 {
     "kind": "OMOBJ",
@@ -74,7 +74,7 @@ This indicates the version of OpenMath that is being used -- \lstinline{"2.0"} i
 
 The third and final attribute is the \texttt{object} attribute. 
 This contains the wrapped object -- it is defined as of \texttt{omel} type. 
-This type \texttt{omel} can contain any OpenMath element -- concretly
+This type \texttt{omel} can contain any OpenMath element -- concretely
 primitive objects (Symbols \texttt{OMS}, Variables \texttt{OMV}, Integers \texttt{OMI}, Floats \texttt{OMF}, Bytes \texttt{OMB}, Strings \texttt{OMSTR}), 
 complex elements (Application \texttt{OMA}, Attribution \texttt{OMATTR}, Binding \texttt{OMBIND}) or
 Errors \texttt{OME} and References \texttt{OMR}. 
@@ -170,7 +170,7 @@ We allows integers to be represented as one of the following:
 
     \item[Hexademical String]
     We can allow to encode an OpenMath Integer as a hexadecimal integer. 
-    To make this different from decimmally encoded integers, we require a lower-case x to be placed before the string. 
+    To make this different from decimally encoded integers, we require a lower-case x to be placed before the string. 
     This also has the advantage that this corresponds exactly to the XML encoding.     
 \end{description}
 
@@ -270,7 +270,7 @@ Bytes can be encoded in two different ways:
 
 \begin{description}
     \item[Array of bytes]
-    This encoding again makes use of JSON datastructures -- representing bytes as a concrete list of bytes.
+    This encoding again makes use of JSON data structures -- representing bytes as a concrete list of bytes.
     As the byte datatype does not exist directly in JSON, we represent a single byte as an integer between 0 and 255 (inclusive). 
 
     \item[Base64 encoded string]
@@ -368,10 +368,10 @@ OpenMath Attributions are encoded as follows:
 }
 \end{lstlisting}\end{minipage}
 
-Note that each attribute is represented as a pair of the name of the attribute and its corrsponding value. 
+Note that each attribute is represented as a pair of the name of the attribute and its corresponding value. 
 This gives us the attributes property in the definiton above being an array of pairs. 
 Here we have a somewhat significant derivation from the XML encoding. 
-This introduced an extra element \texttt{OMATTVAR} to represent the pairs -- this is not neccessary for our case. 
+This introduced an extra element \texttt{OMATTVAR} to represent the pairs -- this is not necessary for our case. 
 
 As an example, to attribute a variable $x$ as having real type:
 \\\begin{minipage}{\linewidth}\begin{lstlisting}
@@ -502,7 +502,7 @@ Finally, OpenMath References are represented as:
 \end{lstlisting}\end{minipage}
 
 These can be used for structure sharing. 
-Concretly, one can take any OpenMath object with an \texttt{id} attribute and refer to it in another place using the \texttt{OMR} object with an appropriate \texttt{href} attribute. 
+Concretely, one can take any OpenMath object with an \texttt{id} attribute and refer to it in another place using the \texttt{OMR} object with an appropriate \texttt{href} attribute. 
 
 Consider as an example the term $f(f(f(a, a), f(a, a)), f(f(a, a), f(a, a)))$. 
 Informally, we can write this as $$f(\underbracket {f(\overbracket {f(a, a)}^y, y)}_x, x)$$. 
@@ -573,3 +573,8 @@ This can be seen in Figures~\ref{figure:xml2json} and \ref{figure:json2xml}.
 
 As we designed our encoding with this translatability goal in mind, the implementation of it was straight-forward. 
 Nonetheless, this translation is also exposed using a REST API. 
+
+%  LocalWords:  handrewsjsonschema:18 vega-ts-jscon-schema-generator:webpage linewidth
+%  LocalWords:  texttt textit textit subsubsection omel transc1 Hexademical attvar
+%  LocalWords:  underbracket overbracket openmathjson:web centering includegraphics
+%  LocalWords:  textwidth xml2json json2xml

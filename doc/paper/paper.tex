@@ -83,27 +83,27 @@
 \maketitle
 
 \begin{abstract}
-  OpenMath is a semantic representation of mathematical objects. 
+  OpenMath is a semantic representation format of mathematical objects and formulae.
+  There are several encodings of OpenMath Objects, most notably the XML and Binary
+  encodings. In this paper we propose another one based on JSON a lightweight
+  data-interchange format that used heavily in the Web Applications arena. 
   
-  There are several encodings of OpenMath Objects, most notably the XML and Binary encodings. 
-  JSON is a lightweight data-interchange format that is present natively in many programming languages. 
-  
-  A few OpenMath JSON encodings already exist, which all have their advantages and
-  disadvantages.  These commonly correspond to a naive representation of the XML encoding
-  and thus do not make use of some of the features that JSON offers.
-        
-  In this paper we propose a new OpenMath JSON encoding, which combines the advantages of
-  the above.
+  We survey two existing OpenMath JSON encodings already and show how their advantages can
+  be combined and their disadvantages can be alleviated. We give a thorough specification
+  of the encoding, present a JSON schema implemented in TypeScript, and provide a web
+  service that validates JSON-encoded OpenMath and transforms OpenMath objects between XML
+  and JSON encodings.
 \end{abstract}
-    
-\ednote{Need to make introduction + conclusion flow better}
     
 \newpage
 \tableofcontents
 \newpage
 
 \input{intro}
+\input{ex}
 \input{encoding}
 \input{conclusion}
 \printbibliography
 \end{document}
+
+%  LocalWords:  maketitle newpage tableofcontents printbibliography
