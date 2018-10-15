@@ -1,13 +1,13 @@
 \section{Existing JSON Encodings for OpenMath}\label{sec:ex}
 
-There are existing approaches for encoding OpenMath as JSON.  We will discuss two
-particular ones here.
+There are existing approaches for encoding OpenMath as JSON. 
+We will discuss two particular ones here.
 
 \paragraph{XML as JSON}
-The JSONML standard \cite{jsonml:webpage} allows generic encoding of arbitrary XML as
-JSON.  This can easily be adapted to the case of OpenMath.  To encode an OpenMath object
-as JSON, one first encodes it as XML and then makes use of JSONML in a second step.  Using
-this method, the term $\mathrm{plus}(x, 5)$ would correspond to:
+The JSONML standard \cite{jsonml:webpage} allows generic encoding of arbitrary XML as JSON. 
+This can easily be adapted to the case of OpenMath. 
+To encode an OpenMath object as JSON, one first encodes it as XML and then makes use of JSONML in a second step. 
+Using this method, the term $\mathrm{plus}(x, 5)$ would correspond to:
 \begin{lstlisting}
 [
     "OMOBJ",
@@ -36,7 +36,7 @@ It also has some disadvantages:
 \begin{itemize}
     \item The encoding does not use the native JSON datatypes. 
     One of the advantages of JSON is that it can encode most basic data types directly, without having to turn the data values into strings. 
-    To encode the floating point value \lstinline{1e-10} (a valid JSON literal) using the JSONML encoding, one can not directly place it into the result. 
+    To encode the floating point value \lstinline{1e-10} (a valid JSON number literal) using the JSONML encoding, one can not directly place it into the result. 
     Instead, one has to turn it into a string first.   
     Despite many JSON implementations providing such a functionality, in practice this would require frequent translation between strings and high-level datatypes.  
     This is not what JSON is intended for, instead the provided data types should be used. 
@@ -47,7 +47,8 @@ It also has some disadvantages:
     This introduces unnecessary overhead into JSON, as an array of values could be used instead. 
 
     \item Many languages use JSON-like structures to implement structured data types. 
-    Thus it stands to reason that an OpenMath JSON encoding should also provide a schema to allow languages to implement OpenMath easily. This is not the case for a JSONML encoding. 
+    Thus it stands to reason that an OpenMath JSON encoding should also provide a schema to allow languages to implement OpenMath easily. 
+    This is not the case for a JSONML encoding. 
 \end{itemize}
 
 \paragraph{OpenMath-JS}
@@ -80,9 +81,10 @@ In this encoding, the term $\mathrm{plus}(x, 5)$ would correspond to:
 This encoding solves some of the disadvantages of the JSONML encoding, however it still has some drawbacks:
 
 \begin{itemize}
-\item It was written as a JavaScript, not JSON, encoding.  The existing library provides
-  JavaScript functions to encode OpenMath objects.  However, the resulting JSON has only
-  minimal names.  This makes it difficult for humans to read and write directly.
+\item It was written as a JavaScript, not JSON, encoding. 
+    The existing library provides JavaScript functions to encode OpenMath objects. 
+    However, the resulting JSON has only minimal names. 
+    This makes it difficult for humans to read and write directly.
 \item No formal schema exists, like in the JSONML encoding.
 \end{itemize}
 

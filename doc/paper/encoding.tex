@@ -1,17 +1,15 @@
 \section{The OpenMath-JSON encoding}\label{sec:encoding}
 
-Given the disadvantages with the existing encodings we propose a new one that combines the
-advantages and alleviates the problems.  In particular, the new encoding should be close
-to the OpenMath XML encoding, and at the same time make use of native JSON concepts.
+Given the disadvantages with the existing encodings we propose a new one that combines the advantages and alleviates the problems. 
+In particular, the new encoding should be close to the OpenMath XML encoding, and at the same time make use of native JSON concepts.
 
-Furthermore, we want to formalize this encoding by providing a JSON schema for easy
-validation, which is not achieved by any existing approach.
+Furthermore, we want to formalize this encoding by providing a JSON schema for easy validation, which is not achieved by any existing approach.
 
-Concretely, we will use JSON Schema~\cite{handrewsjsonschema:18}.  This defines a
-vocabulary allowing us to validate and annotate JSON documents.  Additionally, tools for
-programatic verification exist in many languages.
+Concretely, we will use JSON Schema~\cite{handrewsjsonschema:18}. 
+This defines a vocabulary allowing us to validate and annotate JSON documents. 
+Additionally, tools for programatic verification exist in many languages.
 
-Unfortunately, JSON schema is often tedious to write and read for humans. 
+Unfortunately, JSON schema is often tedious to read and write for humans. 
 This is especially true when it comes to recursively defined data structures.
 OpenMath has many recursive structures.
 Instead of writing our encoding in JSON Schema directly, we decided to write the schema in a different language and then compile it to JSON Schema. 
@@ -19,7 +17,7 @@ Instead of writing our encoding in JSON Schema directly, we decided to write the
 For this purpose, we decided to make use of TypeScript~\cite{typescript:webpage}. 
 TypeScript is a language derived from JavaScript -- TypeScript files are JavaScript plus type annotations. 
 As such, it can be easily written and understood by humans. 
-On top of typescript, we make use of a compiler~\cite{vega-ts-jscon-schema-generator:webpage} from TypeScript definitions into JSON Schema. 
+On top of TypeScript, we make use of a compiler~\cite{vega-ts-jscon-schema-generator:webpage} from TypeScript definitions into JSON Schema. 
 
 In general, objects in our encoding look similar to the following:
 \\\begin{minipage}{\linewidth}
@@ -34,11 +32,11 @@ In general, objects in our encoding look similar to the following:
 The \texttt{kind} attribute specifies which kind of OpenMath object this is. 
 These values correspond to the element names used in the XML encoding. 
 This correspondence lays the foundations of easy translation between the two. 
-In TypeScript this property is also referred to as a \textit{Type Guard}, because if \textit{guards} the type of object that is represented. 
+In TypeScript this property is also referred to as a \textit{Type Guard}, because it \textit{guards} the type of object that is represented. 
 
-As in the XML encoding it is possible to make use of structure sharing.  For this purpose
-the \texttt{id} attribute can be used.  We will come back to this in more detail below,
-when we define to the \texttt{OMR} type.
+As in the XML encoding it is possible to make use of structure sharing. 
+For this purpose the \texttt{id} attribute can be used. 
+We will come back to this in more detail below, when we define to the \texttt{OMR} type.
 
 In the following we will go over the details of our encoding. 
 For this we will make use of a TypeScript-like syntax, that is easily readable. 
@@ -83,10 +81,7 @@ This indicates the version of OpenMath that is being used -- \lstinline{"2.0"} i
 
 The third and final attribute is the \texttt{object} attribute. 
 This contains the wrapped object -- it is defined as of \texttt{omel} type. 
-This type \texttt{omel} can contain any OpenMath element -- concretely
-primitive objects (Symbols \texttt{OMS}, Variables \texttt{OMV}, Integers \texttt{OMI}, Floats \texttt{OMF}, Bytes \texttt{OMB}, Strings \texttt{OMSTR}), 
-complex elements (Application \texttt{OMA}, Attribution \texttt{OMATTR}, Binding \texttt{OMBIND}) or
-Errors \texttt{OME} and References \texttt{OMR}. 
+This type \texttt{omel} can contain any OpenMath object -- concretely primitive objects (Symbols \texttt{OMS}, Variables \texttt{OMV}, Integers \texttt{OMI}, Floats \texttt{OMF}, Bytes \texttt{OMB}, Strings \texttt{OMSTR}), composite objects (Application \texttt{OMA}, Attribution \texttt{OMATTR}, Binding \texttt{OMBIND}) or Errors \texttt{OME} and References \texttt{OMR}. 
 In this particular case, we just have the integer $3$. 
 
 \subsection{Symbols -- OMS}
@@ -98,7 +93,7 @@ An OpenMath Symbol is encoded as follows:
     "kind": "OMS",
     /** the base for the cd, optional */
     "cdbase"?: uri, /* any valid URI */, 
-    /** content dictonary the symbol is in, any uri */
+    /** content dictonary the symbol is in, any name */
     "cd": name,
     /** name of the symbol */
     "name": name /* any valid symbol name */
@@ -164,18 +159,18 @@ In particular, we define them as follows:
 }
 \end{lstlisting}\end{minipage}
 
-We allows integers to be represented as one of the following:
+We allow integers to be represented as one of the following:
 \begin{description}
     \item[JSON Integers]
     Representing an OpenMath Integer as a JSON integer allows making use of datatypes that JSON offers. 
     This was one of the goals we wanted to achieve with our encoding. 
     
     JSON has no integer type in and of itself -- it only provides a \texttt{number} type. 
-    To work around this in our schema, we define a custom integer type as any number that is an integer. 
-        
+    To work around this in our schema, we define a custom integer type by restricting the number type to integers. 
+
     OpenMath integers can be of arbitrary size. 
     While the JSON specification does not limit the size of numbers, it also allows any implementation the freedom to pick some limit. 
-    Thus for reasonably sized integers, this representation works well. 
+    Thus this representation only work well for reasonably sized integers. 
     But for larger numbers, the other two variants should be used. 
 
     \item[Decimal Strings]
@@ -400,7 +395,7 @@ OpenMath Attributions are encoded as follows:
 Note that each attribute is represented as a pair of the name of the attribute and its corresponding value. 
 This gives us the attributes property in the definiton above being an array of pairs. 
 Here we have a somewhat significant derivation from the XML encoding. 
-This introduced an extra element \texttt{OMATTVAR} to represent the pairs -- this is not necessary for our case. 
+This introduced an extra element \texttt{OMATP} to represent the pairs -- this is not necessary for our case. 
 
 As an example, to attribute a variable $x$ as having real type:
 \\\begin{minipage}{\linewidth}
@@ -457,7 +452,7 @@ For example to encode $\lambda x . \sin(x)$:
     "object": {  
         "kind": "OMA",
         "applicant":
-            { "kind": "OMS", "cd": "transc1", "name":"sin" },
+            { "kind": "OMS", "cd": "transc1", "name": "sin" },
         "arguments": [
             { "kind": "OMV", "name": "x" }
         ]
@@ -514,9 +509,9 @@ In JSON, we can encode one such object as follows:
 }
 \end{lstlisting}\end{minipage}
 
-By nature of being JSON, Foreign objects inside the JSON encoding are obviously limited of being representable as JSON. 
+By nature of being JSON, foreign objects inside the JSON encoding are obviously limited of being representable as JSON. 
 
-As a very simple example a latex math term could be represented as:
+As a very simple example a \LaTeX math term could be represented as:
 \\\begin{minipage}{\linewidth}
 \begin{lstlisting}
 {
