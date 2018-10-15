@@ -227,8 +227,8 @@ A symbol is represented using the `OMS` type.
     /** the base for the cd, optional */
     "cdbase": uri, 
 
-    /** content dictonary the symbol is in, any uri */
-    "cd": uri
+    /** content dictonary the symbol is in, any name */
+    "cd": name,
 
     /** name of the symbol */
     "name": name

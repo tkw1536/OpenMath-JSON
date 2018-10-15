@@ -27,7 +27,7 @@ export interface OMS extends withCD {
     kind: 'OMS'
 
     /** content dictonary the symbol is in */
-    cd: uri
+    cd: name
 
     /** name of the symbol */
     name: name
