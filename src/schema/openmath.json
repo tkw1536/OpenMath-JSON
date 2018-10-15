@@ -292,7 +292,7 @@
       "description": "Symbol ",
       "properties": {
         "cd": {
-          "$ref": "#/definitions/uri",
+          "$ref": "#/definitions/name",
           "description": "content dictonary the symbol is in "
         },
         "cdbase": {
