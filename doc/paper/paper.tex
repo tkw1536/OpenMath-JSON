@@ -1,11 +1,28 @@
 \documentclass[12pt]{article}
+\usepackage{onecolceurws}
 
 \usepackage{amsmath}
 \usepackage{mathtools} % for over- and underbrackets
 
-% we use kwarc.bib
-\usepackage[backend=biber]{biblatex}
-\addbibresource{kwarc.bib}
+\usepackage[hyperref,backend=bibtex,style=alphabetic]{biblatex}
+\addbibresource{kwarcpubs.bib}
+\addbibresource{extpubs.bib}
+\addbibresource{kwarccrossrefs.bib}
+\addbibresource{extcrossrefs.bib}
+%\addbibresource{local.bib} % put references there that are not in kwarc.bib
+\renewbibmacro*{event+venue+date}{}
+\renewbibmacro*{doi+eprint+url}{%
+  \iftoggle{bbx:doi}
+    {\printfield{doi}\iffieldundef{doi}{}{\clearfield{url}}}
+    {}%
+  \newunit\newblock
+  \iftoggle{bbx:eprint}
+    {\usebibmacro{eprint}}
+    {}%
+  \newunit\newblock
+  \iftoggle{bbx:url}
+    {\usebibmacro{url+urldate}}
+    {}}
 
 \usepackage{hyperref}
 \usepackage[dvipsnames]{xcolor}
@@ -57,34 +74,36 @@
 }
 
 
-\title{A Proposal for an OpenMath JSON Encoding\\OpenMath workshop CICM 2018}
-\author{Michael Kohlhase \and Tom Wiesing}
+\title{A Proposal for an OpenMath JSON Encoding}
+\author{Tom Wiesing\and Michael Kohlhase}
+\institution{Computer Science, FAU Erlangen-N\"urnberg, Germany\\
+\url{http://kwarc.info}}
 
 \begin{document}
-    \maketitle
+\maketitle
 
-    \begin{abstract}
-        OpenMath is a semantic representation of mathematical objects. 
-
-        There are several encodings of OpenMath Objects, most notably the XML and Binary encodings. 
-        JSON is a lightweight data-interchange format that is present natively in many programming languages. 
+\begin{abstract}
+  OpenMath is a semantic representation of mathematical objects. 
+  
+  There are several encodings of OpenMath Objects, most notably the XML and Binary encodings. 
+  JSON is a lightweight data-interchange format that is present natively in many programming languages. 
+  
+  A few OpenMath JSON encodings already exist, which all have their advantages and
+  disadvantages.  These commonly correspond to a naive representation of the XML encoding
+  and thus do not make use of some of the features that JSON offers.
         
-        A few OpenMath JSON encodings already exist, which all have their advantages and disadvantages. 
-        These commonly correspond to a naive representation of the XML encoding and thus do not make use of some of the features that JSON offers. 
-        
-        In this paper we propose a new OpenMath JSON encoding, which combines the advantages of the above. 
-    \end{abstract}
-
-    \ednote{Need to make introduction + conclusion flow better}
-    \ednote{Styling the paper/citation style?}
+  In this paper we propose a new OpenMath JSON encoding, which combines the advantages of
+  the above.
+\end{abstract}
     
-    \newpage
-    \tableofcontents
-    \newpage
+\ednote{Need to make introduction + conclusion flow better}
+    
+\newpage
+\tableofcontents
+\newpage
 
-    \input{intro.tex}
-    \input{encoding.tex}
-    \input{conclusion.tex}
-
-    \printbibliography
+\input{intro}
+\input{encoding}
+\input{conclusion}
+\printbibliography
 \end{document}
