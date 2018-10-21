@@ -1,0 +1,106 @@
+\documentclass[12pt]{article}
+\usepackage{onecolceurws}
+
+\usepackage{amsmath}
+\usepackage{mathtools} % for over- and underbrackets
+
+\usepackage[hyperref,backend=bibtex,style=alphabetic]{biblatex}
+\addbibresource{kwarcpubs.bib}
+\addbibresource{extpubs.bib}
+\addbibresource{kwarccrossrefs.bib}
+\addbibresource{extcrossrefs.bib}
+%\addbibresource{local.bib} % put references there that are not in kwarc.bib
+\renewbibmacro*{event+venue+date}{}
+\renewbibmacro*{doi+eprint+url}{%
+  \iftoggle{bbx:doi}
+    {\printfield{doi}\iffieldundef{doi}{}{\clearfield{url}}}
+    {}%
+  \newunit\newblock
+  \iftoggle{bbx:eprint}
+    {\usebibmacro{eprint}}
+    {}%
+  \newunit\newblock
+  \iftoggle{bbx:url}
+    {\usebibmacro{url+urldate}}
+    {}}
+
+\usepackage{hyperref}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[show]{ed}
+
+% listings syntax highlighting for JSOn
+\usepackage{listings}
+
+\colorlet{bool}{red}
+\colorlet{string}{blue}
+\colorlet{number}{orange}
+\colorlet{comment}{OliveGreen}
+\colorlet{type}{purple}
+
+\lstset{
+    basicstyle=\small\ttfamily,
+    columns=fullflexible,
+    % strings
+    string=[s]{"}{"},
+    stringstyle=\color{string},
+    % booleans
+    keywords={true,false},
+    keywordstyle=\color{bool},
+    % comments
+    comment=[s]{/*}{*/},
+    morecomment=[l]{//},
+    commentstyle=\color{comment},
+    % types
+    morekeywords=[2]{base64string,omel,uri,name,any,string,integer,decimalInteger,hexInteger,float,decimalFloat,hexFloat,byte,OMFOREIGN,OMV,attvar},
+    keywordstyle=[2]{\color{type}},
+}
+
+% digits
+\lstset{literate=%
+   *{0}{{{\color{number}0}}}1
+    {1}{{{\color{number}1}}}1
+    {2}{{{\color{number}2}}}1
+    {3}{{{\color{number}3}}}1
+    {4}{{{\color{number}4}}}1
+    {5}{{{\color{number}5}}}1
+    {6}{{{\color{number}6}}}1
+    {7}{{{\color{number}7}}}1
+    {8}{{{\color{number}8}}}1
+    {9}{{{\color{number}9}}}1
+    {e-}{{{\color{number}e-}}}2
+    {-}{{{\color{number}-}}}1
+    {.}{{{\color{number}.}}}1
+    {base64string}{{{\color{type}base64string}}}{12}%keyword gets caught by number, so escape it
+}
+
+
+\title{A Proposal for an OpenMath JSON Encoding}
+\author{Tom Wiesing\and Michael Kohlhase}
+\institution{Computer Science, FAU Erlangen-N\"urnberg, Germany\\
+\url{http://kwarc.info}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  OpenMath is a semantic representation format of mathematical objects and formulae.
+  There are several encodings of OpenMath Objects, most notably the XML and Binary encodings. 
+  In this paper we propose another one based on JSON -- a lightweight data-interchange format used heavily in the Web Applications area. 
+  
+  We survey two existing OpenMath JSON encodings already and show how their advantages can be combined and their disadvantages be alleviated. 
+  We give a thorough specification of the encoding, present a JSON schema implemented in TypeScript, and provide a web service that validates JSON-encoded OpenMath and transforms OpenMath objects between XML and JSON encodings.
+\end{abstract}
+    
+% \newpage
+% \tableofcontents
+% \newpage
+
+\input{intro}
+\input{ex}
+\input{encoding}
+\input{webservice}
+\input{conclusion}
+\printbibliography
+\end{document}
+
+%  LocalWords:  maketitle newpage tableofcontents printbibliography webservice
