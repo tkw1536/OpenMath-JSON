@@ -9,8 +9,8 @@ import {DOMParser, XMLSerializer} from "xmldom"
 
 import {TValidationResult, TJSONConversionResult, TXMLConversionResult} from "./api";
 
-import {validateJSON} from "../schema/";
-import {convertToJSON, convertToXML} from "../../src/convert";
+import {validateJSON} from "../../src/";
+import {convertToJSON, convertToXML} from "../../src/";
 
 function validate(req: express.Request, kind?: string): TValidationResult {
     try {
