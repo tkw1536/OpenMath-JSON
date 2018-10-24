@@ -1,8 +1,5 @@
 import schema from "./openmath.json";
 import { Validator, ValidatorResult } from "jsonschema";
-import { Options } from "body-parser";
-
-const v = new Validator();
 
 /**
  * Parse a string, and check it is valid OpenMath JSON
@@ -39,6 +36,8 @@ const knownKinds = [
     'OMFOREIGN',
     'OMR'
 ];
+
+const v = new Validator();
 
 /**
  * Check if an existing JSON object is a valid OpenMath JSON Object
