@@ -34,7 +34,7 @@ The demo website can be found at [https://omjson.kwarc.info](https://omjson.kwar
 The website can be run locally by typing:
 
 ```
-yarn serveprod
+cd server && yarn && yarn serveprod
 ```
 
 or using the automated Docker Build [tkw01536/openmath-json-demo](https://hub.docker.com/r/tkw01536/openmath-json-demo/):
