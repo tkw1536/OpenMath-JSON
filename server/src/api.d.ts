@@ -1,5 +1,5 @@
 import { Validator, ValidatorResult } from "jsonschema";
-import { omany } from ",./../schema/openmath";
+import { omany } from "../../src/schema/openmath";
 
 type IApiResponse<T extends {}> = IApiFailure | IApiSuccess<T>;
 
