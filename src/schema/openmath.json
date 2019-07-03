@@ -1,17 +1,17 @@
 {
   "$ref": "#/definitions/omany",
-  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
     "OMA": {
       "additionalProperties": false,
-      "description": "Application ",
+      "description": "Application",
       "properties": {
         "applicant": {
           "$ref": "#/definitions/omel",
-          "description": "the term that is being applied "
+          "description": "the term that is being applied"
         },
         "arguments": {
-          "description": "the arguments that the applicant is being applied to ",
+          "description": "the arguments that the applicant is being applied to",
           "items": {
             "$ref": "#/definitions/omel"
           },
@@ -19,14 +19,14 @@
         },
         "cdbase": {
           "$ref": "#/definitions/uri",
-          "description": "base URI to use for any cds within this element "
+          "description": "base URI to use for any cds within this element"
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMA"
           ],
@@ -41,22 +41,22 @@
     },
     "OMATTR": {
       "additionalProperties": false,
-      "description": "Attributed object ",
+      "description": "Attributed object",
       "properties": {
         "attributes": {
           "$ref": "#/definitions/omattributes",
-          "description": "attributes attributed to this object "
+          "description": "attributes attributed to this object"
         },
         "cdbase": {
           "$ref": "#/definitions/uri",
-          "description": "base URI to use for any cds within this element "
+          "description": "base URI to use for any cds within this element"
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMATTR"
           ],
@@ -64,7 +64,7 @@
         },
         "object": {
           "$ref": "#/definitions/omel",
-          "description": "object that is being attributed "
+          "description": "object that is being attributed"
         }
       },
       "required": [
@@ -83,26 +83,26 @@
           "$ref": "#/definitions/ombbase64"
         }
       ],
-      "description": "bytes "
+      "description": "bytes"
     },
     "OMBIND": {
       "additionalProperties": false,
-      "description": "Binding ",
+      "description": "Binding",
       "properties": {
         "binder": {
           "$ref": "#/definitions/omel",
-          "description": "the binder being used "
+          "description": "the binder being used"
         },
         "cdbase": {
           "$ref": "#/definitions/uri",
-          "description": "base URI to use for any cds within this element "
+          "description": "base URI to use for any cds within this element"
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMBIND"
           ],
@@ -110,11 +110,11 @@
         },
         "object": {
           "$ref": "#/definitions/omel",
-          "description": "the object that is being bound "
+          "description": "the object that is being bound"
         },
         "variables": {
           "$ref": "#/definitions/attvars",
-          "description": "the variables being bound "
+          "description": "the variables being bound"
         }
       },
       "required": [
@@ -127,10 +127,10 @@
     },
     "OME": {
       "additionalProperties": false,
-      "description": "Error ",
+      "description": "Error",
       "properties": {
         "arguments": {
-          "description": "arguments to the error  ",
+          "description": "arguments to the error",
           "items": {
             "anyOf": [
               {
@@ -145,14 +145,14 @@
         },
         "error": {
           "$ref": "#/definitions/OMS",
-          "description": "the error that has occured "
+          "description": "the error that has occured"
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OME"
           ],
@@ -177,29 +177,29 @@
           "$ref": "#/definitions/omfhex"
         }
       ],
-      "description": "IEEE floating point "
+      "description": "IEEE floating point"
     },
     "OMFOREIGN": {
       "additionalProperties": false,
-      "description": "Non-OpenMath object  ",
+      "description": "Non-OpenMath object",
       "properties": {
         "cdbase": {
           "$ref": "#/definitions/uri",
-          "description": "base URI to use for any cds within this element "
+          "description": "base URI to use for any cds within this element"
         },
         "encoding": {
-          "description": "encoding of the foreign object ",
+          "description": "encoding of the foreign object",
           "type": "string"
         },
         "foreign": {
-          "description": "the foreign object "
+          "description": "the foreign object, usually a string"
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMFOREIGN"
           ],
@@ -224,22 +224,22 @@
           "$ref": "#/definitions/omihex"
         }
       ],
-      "description": "an integer "
+      "description": "an integer"
     },
     "OMOBJ": {
       "additionalProperties": false,
-      "description": "OpenMath Object Constructor ",
+      "description": "OpenMath Object Constructor",
       "properties": {
         "cdbase": {
           "$ref": "#/definitions/uri",
-          "description": "base URI to use for any cds within this element "
+          "description": "base URI to use for any cds within this element"
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMOBJ"
           ],
@@ -263,18 +263,18 @@
     },
     "OMR": {
       "additionalProperties": false,
-      "description": "Reference to another element within the same structure ",
+      "description": "Reference to another element within the same structure",
       "properties": {
         "href": {
           "$ref": "#/definitions/uri",
-          "description": "element that is being referenced "
+          "description": "element that is being referenced"
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMR"
           ],
@@ -289,22 +289,22 @@
     },
     "OMS": {
       "additionalProperties": false,
-      "description": "Symbol ",
+      "description": "Symbol",
       "properties": {
         "cd": {
           "$ref": "#/definitions/name",
-          "description": "content dictonary the symbol is in "
+          "description": "content dictonary the symbol is in"
         },
         "cdbase": {
           "$ref": "#/definitions/uri",
-          "description": "base URI to use for any cds within this element "
+          "description": "base URI to use for any cds within this element"
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMS"
           ],
@@ -312,7 +312,7 @@
         },
         "name": {
           "$ref": "#/definitions/name",
-          "description": "name of the symbol "
+          "description": "name of the symbol"
         }
       },
       "required": [
@@ -324,21 +324,21 @@
     },
     "OMSTR": {
       "additionalProperties": false,
-      "description": "String ",
+      "description": "String",
       "properties": {
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMSTR"
           ],
           "type": "string"
         },
         "string": {
-          "description": "the string ",
+          "description": "the string",
           "type": "string"
         }
       },
@@ -350,14 +350,14 @@
     },
     "OMV": {
       "additionalProperties": false,
-      "description": "Variable ",
+      "description": "Variable",
       "properties": {
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMV"
           ],
@@ -365,7 +365,7 @@
         },
         "name": {
           "$ref": "#/definitions/name",
-          "description": "the name of the variable "
+          "description": "the name of the variable"
         }
       },
       "required": [
@@ -376,22 +376,22 @@
     },
     "attvar": {
       "additionalProperties": false,
-      "description": "Attributed variable ",
+      "description": "Attributed variable",
       "properties": {
         "attributes": {
           "$ref": "#/definitions/omattributes",
-          "description": "attributes attributed to this object "
+          "description": "attributes attributed to this object"
         },
         "cdbase": {
           "$ref": "#/definitions/uri",
-          "description": "base URI to use for any cds within this element "
+          "description": "base URI to use for any cds within this element"
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMATTR"
           ],
@@ -399,7 +399,7 @@
         },
         "object": {
           "$ref": "#/definitions/OMV",
-          "description": "object that is being attributed "
+          "description": "object that is being attributed"
         }
       },
       "required": [
@@ -448,7 +448,7 @@
       "type": "string"
     },
     "float": {
-      "description": "A floating point number\n\nRepresented via a native JSON representation",
+      "description": "A floating point number. \nShould not be NaN, +Infinity or -Infinity. \n\nRepresented via a native JSON representation",
       "type": "number"
     },
     "hexFloat": {
@@ -481,7 +481,7 @@
           "$ref": "#/definitions/omel"
         }
       ],
-      "description": "TypeScript Definitions for a work-in-progress OpenMath JSON Encoding\n\n(c) Tom Wiesing 2018 \n Any OpenMath element (or related element) "
+      "description": "TypeScript Definitions for a work-in-progress OpenMath JSON Encoding\n\n(c) Tom Wiesing 2018 \n Any OpenMath element (or related element)"
     },
     "omattributes": {
       "description": "Attributes for the OMATTR Constructor",
@@ -516,10 +516,10 @@
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMB"
           ],
@@ -543,10 +543,10 @@
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMB"
           ],
@@ -595,7 +595,7 @@
           "$ref": "#/definitions/OMR"
         }
       ],
-      "description": "Elements which can appear inside an OpenMath object "
+      "description": "Elements which can appear inside an OpenMath object"
     },
     "omfdec": {
       "additionalProperties": false,
@@ -605,10 +605,10 @@
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMF"
           ],
@@ -629,10 +629,10 @@
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMF"
           ],
@@ -653,10 +653,10 @@
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMF"
           ],
@@ -677,10 +677,10 @@
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMI"
           ],
@@ -701,10 +701,10 @@
         },
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMI"
           ],
@@ -722,13 +722,13 @@
       "properties": {
         "id": {
           "$ref": "#/definitions/name",
-          "description": "id of this element, if it is used for structure sharing "
+          "description": "id of this element, if it is used for structure sharing"
         },
         "integer": {
           "$ref": "#/definitions/integer"
         },
         "kind": {
-          "description": "the kind of OpenMath Element this type describes ",
+          "description": "the kind of OpenMath Element this type describes",
           "enum": [
             "OMI"
           ],
