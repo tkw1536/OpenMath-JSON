@@ -481,7 +481,7 @@
           "$ref": "#/definitions/omel"
         }
       ],
-      "description": "TypeScript Definitions for a work-in-progress OpenMath JSON Encoding\n\n(c) Tom Wiesing 2018 \n Any OpenMath element (or related element)"
+      "description": "TypeScript Definitions for an OpenMath JSON encoding\n\n(c) Tom Wiesing 2018-19 \n Any OpenMath element (or related element)"
     },
     "omattributes": {
       "description": "Attributes for the OMATTR Constructor",

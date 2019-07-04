@@ -1,7 +1,7 @@
 /**
- * TypeScript Definitions for a work-in-progress OpenMath JSON Encoding
+ * TypeScript Definitions for an OpenMath JSON encoding
  * 
- * (c) Tom Wiesing 2018
+ * (c) Tom Wiesing 2018-19
  * @license CC-BY-3.0
  */
 
