@@ -109,7 +109,7 @@ The concrete schema is implemented as a set of TypeScript Definitions, which can
 It is then compiled into a JSON Schema. 
 The details of this can be found in the [README](../README.md)
 
-### General Strucure
+### General Structure
 In general, each OpenMath object is represented as a JSON structure. 
 For example: 
 
