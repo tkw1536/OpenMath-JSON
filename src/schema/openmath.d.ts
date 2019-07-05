@@ -1,7 +1,7 @@
 /**
- * TypeScript Definitions for a work-in-progress OpenMath JSON Encoding
+ * TypeScript Definitions for an OpenMath JSON encoding
  * 
- * (c) Tom Wiesing 2018
+ * (c) Tom Wiesing 2018-19
  * @license CC-BY-3.0
  */
 
@@ -51,7 +51,7 @@ interface omidec extends omikind { decimal:     decimalInteger }
 interface omihex extends omikind { hexadecimal: hexInteger }
 
 /** IEEE floating point */
-export type OMF = omffloat | omfdec | omfhex; // TODO: NaN, +-inf
+export type OMF = omffloat | omfdec | omfhex;
 
 interface omfkind  extends referencable { kind: 'OMF' }
 interface omffloat extends omfkind { float:       float }
@@ -78,7 +78,7 @@ export interface OMA extends withCD {
     kind: 'OMA'
 
     /** the term that is being applied */
-    applicant: omel // TODO: Name
+    applicant: omel
 
     /** the arguments that the applicant is being applied to */
     arguments?: omel[]
@@ -134,7 +134,7 @@ export interface OME extends referencable {
     error: OMS
 
     /** arguments to the error  */
-    arguments?: (omel|OMFOREIGN)[] // TODO: Rename this?
+    arguments?: (omel|OMFOREIGN)[]
 }
 
 /** Non-OpenMath object  */
@@ -144,8 +144,8 @@ export interface OMFOREIGN extends withCD {
     /** encoding of the foreign object */
     encoding?: string
 
-    /** the foreign object */
-    foreign: any // TODO: Do we want to disallow OpenMath Elements here?
+    /** the foreign object, usually a string */
+    foreign: any
 }
 
 /** Reference to another element within the same structure */
@@ -215,7 +215,8 @@ type decimalInteger = string;
 type hexInteger = string;
 
 /**
- * A floating point number
+ * A floating point number. 
+ * Should not be NaN, +Infinity or -Infinity. 
  * 
  * Represented via a native JSON representation
  */

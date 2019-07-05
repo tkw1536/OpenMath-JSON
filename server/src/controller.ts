@@ -57,7 +57,7 @@ const router = express.Router();
 
 router.use(morgan("tiny"));
 
-router.use('/api/v1/', bodyParser.text());
+router.use('/api/v1/', bodyParser.text({type: "*/*"}));
 router.use('/api/v1/', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
