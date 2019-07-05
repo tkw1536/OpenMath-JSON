@@ -29,7 +29,7 @@ This can be found in the [src/convert/](src/convert) folder.
 Furthermore, an implementation that validates a given JSON object against the JSON Schema is also present. 
 This is demonstrated in the form of a website and an API. 
 
-The demo website can be found at [https://omjson.kwarc.info](https://omjson.kwarc.info). 
+The demo website can be found at [https://omjson.openmath.org](https://omjson.openmath.org). 
 
 The website can be run locally by typing:
 
