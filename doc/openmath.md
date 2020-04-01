@@ -440,9 +440,9 @@ Bytes can also be encoded as a base64 encoded string.
 }
 ```
 
-### OMS -- Strings
+### OMSTR -- Strings
 
-Strings can be represented using normal JSON strings and the `OMS` type. 
+Strings can be represented using normal JSON strings and the `OMSTR` type. 
 
 ```ts
 {
@@ -502,9 +502,9 @@ For example:
 }
 ```
 
-### OMA -- Attribution
+### OMATTR -- Attribution
 
-Attribution can be represented using the `OMB` type. 
+Attribution can be represented using the `OMATTR` type. 
 
 ```ts
 {
@@ -551,9 +551,9 @@ For example:
 }
 ```
 
-### OMB - Binding
+### OMBIND - Binding
 
-Binding can be represented using the `OMB` type. 
+Binding can be represented using the `OMBIND` type. 
 
 ```ts
 {
