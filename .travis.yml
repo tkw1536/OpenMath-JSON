@@ -4,6 +4,8 @@ node_js: node
 
 # install yarn
 install: yarn
+node_js:
+  - 12
 
 script:
   # generate the schema, and check that the file exists
