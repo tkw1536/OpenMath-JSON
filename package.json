@@ -1,8 +1,8 @@
 {
   "dependencies": {
+    "@types/mocha": "^5.2.7",
     "@types/node": "^12.0.10",
     "@types/xmldom": "^0.1.29",
-    "@types/mocha": "^5.2.7",
     "jsonschema": "^1.2.4",
     "mocha": "^6.1.4",
     "ts-json-schema-generator": "^0.50.2",
@@ -23,7 +23,5 @@
   "repository": "git@github.com:tkw1536/OpenMath-JSON.git",
   "author": "Tom Wiesing <tkw01536@gmail.com>",
   "license": "CC-BY-3.0",
-  "devDependencies": {
-
-  }
+  "devDependencies": {}
 }
