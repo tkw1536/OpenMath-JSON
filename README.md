@@ -39,10 +39,10 @@ The website can be run locally by typing:
 cd server && yarn && yarn serveprod
 ```
 
-or using the automated Docker Build [tkw01536/openmath-json-demo](https://hub.docker.com/r/tkw01536/openmath-json-demo/):
+or using the automated Github Package [tkw1536/openmath-json-demo](https://github.com/tkw1536/OpenMath-JSON/pkgs/container/openmath-json-demo):
 
 ```
-docker run -p 3000:3000 tkw01536/openmath-json-demo
+docker run -p 3000:3000 ghcr.io/tkw1536/openmath-json-demo:latest
 ```
 
 ## License
