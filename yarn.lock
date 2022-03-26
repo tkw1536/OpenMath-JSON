@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@types/json-schema@^7.0.3":
+  version "7.0.11"
+  resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.11.tgz#d421b6c527a3037f7c84433fd2c4229e016863d3"
+  integrity sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==
+
 "@types/mocha@^5.2.7":
   version "5.2.7"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.7.tgz#315d570ccb56c53452ff8638738df60726d5b6ea"
@@ -623,15 +628,16 @@ supports-color@^5.3.0:
   dependencies:
     has-flag "^3.0.0"
 
-ts-json-schema-generator@^0.50.2:
-  version "0.50.2"
-  resolved "https://registry.yarnpkg.com/ts-json-schema-generator/-/ts-json-schema-generator-0.50.2.tgz#3a2f6ace51166b7c8d16c11f58f316ff4279d3ad"
-  integrity sha512-S6n8kHpU2y7IJvr07rA2Xn9wbKRWTs31jvgpFQnkWn4n7jWXOj/yGEzp1UN/qQOBB0r3qSZjsOMr2KzuaSWTGA==
+ts-json-schema-generator@^0.52.14:
+  version "0.52.14"
+  resolved "https://registry.yarnpkg.com/ts-json-schema-generator/-/ts-json-schema-generator-0.52.14.tgz#04b0005e23e1b13a8dc9a58d5a1f85e229eef056"
+  integrity sha512-OkhNEvTu7q2Mw7vMgMuXPDkWY3mIfH5EUIeyIIBkajZVWSpaRD+Mb9j5DBacD/sZn/pf2Q/o2tEf4um6S6L6WA==
   dependencies:
+    "@types/json-schema" "^7.0.3"
     commander "~2.20.0"
     glob "~7.1.4"
     json-stable-stringify "^1.0.1"
-    typescript "~3.5.2"
+    typescript "~3.5.3"
 
 ts-node@^8.3.0:
   version "8.8.1"
@@ -649,7 +655,7 @@ typescript@^3.5.2:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.3.tgz#409eb8544ea0335711205869ec458ab109ee1061"
   integrity sha512-MYlEfn5VrLNsgudQTVJeNaQFUAI7DkhnOjdpAp4T+ku1TfQClewlbSuTVHiA+8skNBgaf02TL/kLOvig4y3G8w==
 
-typescript@~3.5.2:
+typescript@~3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.3.tgz#c830f657f93f1ea846819e929092f5fe5983e977"
   integrity sha512-ACzBtm/PhXBDId6a6sDJfroT2pOWt/oOnk4/dElG5G33ZL776N3Y6/6bKZJBFpd+b05F3Ct9qDjMeJmRWtE2/g==
