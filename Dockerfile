@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:16-alpine
 
 # Make /app/
 RUN mkdir /app/ && mkdir /app/server
