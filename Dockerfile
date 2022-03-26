@@ -11,11 +11,12 @@ ADD LICENSE /app/LICENSE
 ADD src/ /app/src
 
 ADD server/package.json /app/server/package.json
+ADD server/yarn.lock /app/server/yarn.lock
 ADD server/src/ /app/server/src
 
 # Install all the package
 WORKDIR /app/
-RUN yarn && cd server && yarn
+RUN yarn --frozen-lockfile && cd server && yarn --frozen-lockfile
 
 # And run the command
 ENV "HOST" 0.0.0.0
