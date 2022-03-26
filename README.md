@@ -1,5 +1,7 @@
 # OpenMath-JSON
 
+![CI Status](https://github.com/tkw1536/OpenMath-JSON/workflows/CI/badge.svg)
+
 A Proposal for an OpenMath JSON encoding -- see [doc/openmath.md](doc/openmath.md) for concrete examples and documentation. 
 
 ## The Encoding
