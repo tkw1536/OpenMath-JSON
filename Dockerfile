@@ -1,5 +1,10 @@
 FROM node:16-alpine
 
+# create www-data
+RUN set -x ; \
+  addgroup -g 82 -S www-data ; \
+  adduser -u 82 -D -S -G www-data www-data && exit 0 ; exit 1
+
 # Make /app/
 RUN mkdir /app/ && mkdir /app/server
 
@@ -24,4 +29,5 @@ ENV "PORT" 3000
 EXPOSE 3000
 
 WORKDIR /app/server/
+USER www-data:www-data
 CMD [ "yarn", "serveprod" ]
