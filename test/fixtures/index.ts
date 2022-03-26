@@ -4,7 +4,7 @@ import {convertToJSON, convertToXML} from "../../src/convert";
 import { readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 
-import {DOMParser, XMLSerializer} from "xmldom";
+import {DOMParser, XMLSerializer} from "@xmldom/xmldom";
 
 
 /** the path to an xml fixture */

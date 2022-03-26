@@ -3,7 +3,7 @@ import morgan from "morgan";
 import { join } from "path";
 
 import bodyParser from "body-parser";
-import {DOMParser, XMLSerializer} from "xmldom"
+import {DOMParser, XMLSerializer} from "@xmldom/xmldom"
 
 // #region "Implementation"
 

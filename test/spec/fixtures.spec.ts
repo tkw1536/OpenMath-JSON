@@ -3,7 +3,7 @@ import {validateJSON} from "../../src/schema/";
 import {readXMLFixture, readJSONFixture} from "../fixtures";
 
 import {strict as assert} from "assert";
-import {XMLSerializer} from "xmldom";
+import {XMLSerializer} from "@xmldom/xmldom";
 
 // #region "Helper functions"
 function checkJSON(name: string, base?: string) {

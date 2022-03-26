@@ -1,4 +1,4 @@
-import {DOMImplementation} from "xmldom";
+import {DOMImplementation} from "@xmldom/xmldom";
 
 import {omany, omel, OMOBJ, OMS, OMFOREIGN, OME, OMV, OMI, OMB, OMSTR, OMF, OMA, OMBIND, attvars, attvar, OMATTR, omattributes, OMR} from "../schema/openmath";
 

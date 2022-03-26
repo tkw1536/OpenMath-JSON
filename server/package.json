@@ -2,7 +2,6 @@
   "dependencies": {
     "@types/body-parser": "^1.17.0",
     "@types/mocha": "^5.2.7",
-    "@types/xmldom": "^0.1.29",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "jsonschema": "^1.2.4",
@@ -10,7 +9,7 @@
     "morgan": "^1.9.0",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.2",
-    "xmldom": "^0.5.0"
+    "@xmldom/xmldom": "^0.8.1"
   },
   "scripts": {
     "serve": "ts-node src/index.ts",
