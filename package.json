@@ -2,7 +2,7 @@
   "dependencies": {
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.0.10",
-    "@xmldom/xmldom": "^0.8.1",
+    "@xmldom/xmldom": "^0.8.3",
     "jsonschema": "^1.2.4",
     "mocha": "^9.2.2",
     "ts-json-schema-generator": "^0.52.14",
